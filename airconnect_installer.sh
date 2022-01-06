@@ -5,10 +5,10 @@
 if [ $(whoami) != 'root' ]; then
   echo "Please run with sudo privileges"
   exit 0
-else
 
+elif [ $(cd /var/lib/airconnect) != -f "airupnp-arm" ]; then
 
-# Install AirConnect
+echo "Install AirConnect..."
 
 mkdir /var/lib/airconnect
 cd /var/lib/airconnect
@@ -39,5 +39,18 @@ systemctl start airconnect
 
 systemctl status airconnect
 
-fi
 
+else
+
+echo "Update AirConnect..."
+
+cd /var/lib/airconnect
+rm airupnp-arm
+wget https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-arm
+chmod 755 airupnp-arm
+
+systemctl restart airconnect
+
+systemctl status airconnect
+
+fi
