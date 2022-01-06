@@ -1,16 +1,14 @@
 name: CI
 
-on:
-  workflow_dispatch:
-
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-      - uses: actions/checkout@v2
-      - uses: pguyot/arm-runner-action@v1
-        with:
-          commands: |
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: pguyot/arm-runner-action@v1
+      with:
+        commands: |
             sudo git clone https://github.com/pheiduck/rpi_configs.git
             cd rpi_configs
             sudo chmod +x airconnect_installer.sh
