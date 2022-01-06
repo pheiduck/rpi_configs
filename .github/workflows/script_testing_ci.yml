@@ -5,8 +5,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: pguyot/arm-runner-action@v1
+    - uses: actions/checkout@main
+    - uses: pguyot/arm-runner-action@main
       with:
         commands: |
             sudo apt update
