@@ -34,10 +34,10 @@ EOF
 
 cd /var/lib/airconnect
 
-systemctl enable airconnect.service
-systemctl start airconnect.service
+systemctl enable airconnect
+systemctl start airconnect
 
-service airconnect status
+systemctl status airconnect
 
 fi
 
