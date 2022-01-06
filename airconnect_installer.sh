@@ -6,6 +6,7 @@ if [ $(whoami) != 'root' ]; then
   echo "Please run with sudo privileges"
   exit 0
 
+
 elif [ $(cd /var/lib/airconnect) != -f "airupnp-arm" ]; then
 
 echo "Install AirConnect..."
