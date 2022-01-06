@@ -7,7 +7,7 @@ if [ $(whoami) != 'root' ]; then
   exit 0
 
 
-elif [ $(cd /var/lib/airconnect) != -f "airupnp-arm" ]; then
+elif [ $(cd /var/lib/) != - "airconnect" ]; then
 
 echo "Install AirConnect..."
 
