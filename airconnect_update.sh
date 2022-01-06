@@ -12,8 +12,9 @@ else
 
 cd /var/lib/airconnect
 wget https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-arm
+rm airupnp-arm
+mv airupnp-arm.* airupnp-arm
 chmod 755 airupnp-arm
-rm airupnp-arm.*
 
 systemctl restart airconnect
 
