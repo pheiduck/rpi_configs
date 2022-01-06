@@ -7,7 +7,21 @@ if [ $(whoami) != 'root' ]; then
   exit 0
 
 
-elif [ $(cd /var/lib/) != -d "airconnect" ]; then
+elif [ -d /var/lib/airconnect ]; then
+
+echo "Update AirConnect..."
+
+cd /var/lib/airconnect
+rm airupnp-arm
+wget https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-arm
+chmod 755 airupnp-arm
+
+systemctl restart airconnect
+
+systemctl status airconnect
+
+
+else
 
 echo "Install AirConnect..."
 
@@ -37,20 +51,6 @@ cd /var/lib/airconnect
 
 systemctl enable airconnect
 systemctl start airconnect
-
-systemctl status airconnect
-
-
-else
-
-echo "Update AirConnect..."
-
-cd /var/lib/airconnect
-rm airupnp-arm
-wget https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-arm
-chmod 755 airupnp-arm
-
-systemctl restart airconnect
 
 systemctl status airconnect
 
