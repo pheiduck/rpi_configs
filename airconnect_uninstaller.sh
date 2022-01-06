@@ -17,5 +17,7 @@ rm -rf /var/lib/airconnect
 
 rm /etc/systemd/system/airconnect.service 
 
+rm /var/log/airupnp.log
+
 fi
 
