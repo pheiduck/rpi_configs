@@ -14,8 +14,6 @@ jobs:
             sudo git clone https://github.com/pheiduck/rpi_configs.git
             cd rpi_configs
             sudo chmod +x airconnect_installer.sh
-            sudo chmod +x airconnect_update.sh
             sudo chmod +x airconnect_uninstaller.sh
             sudo ./airconnect_installer.sh
-            sudo ./airconnect_update.sh
             sudo ./airconnect_uninstaller.sh
