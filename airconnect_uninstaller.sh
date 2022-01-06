@@ -8,7 +8,7 @@ if [ $(whoami) != 'root' ]; then
 else
 
 
-# Uninstall AirConnect
+echo "Uninstall AirConnect..."
 
 systemctl stop airconnect
 systemctl disable airconnect
