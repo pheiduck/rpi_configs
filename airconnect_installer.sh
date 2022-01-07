@@ -13,7 +13,7 @@ echo "Update AirConnect..."
 
 cd /var/lib/airconnect
 rm airupnp-arm
-wget https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-arm
+curl https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-arm -o airupnp-arm
 chmod 755 airupnp-arm
 
 systemctl restart airconnect
@@ -27,7 +27,7 @@ echo "Install AirConnect..."
 
 mkdir /var/lib/airconnect
 cd /var/lib/airconnect
-wget https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-arm
+curl https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-arm -o airupnp-arm
 chmod 755 airupnp-arm
 
 cd /etc/systemd/system/
