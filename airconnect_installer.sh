@@ -49,8 +49,7 @@ EOF
 
 cd /var/lib/airconnect
 
-systemctl enable airconnect
-systemctl start airconnect
+systemctl enable --now airconnect
 
 systemctl status airconnect
 

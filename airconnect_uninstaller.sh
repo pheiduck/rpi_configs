@@ -11,8 +11,7 @@ elif [ -d /var/lib/airconnect ]; then
 
 echo "Uninstall AirConnect..."
 
-systemctl stop airconnect
-systemctl disable airconnect
+systemctl disable --now airconnect
 
 rm -rf /var/lib/airconnect
 
@@ -28,4 +27,3 @@ echo "For reinstallation use the installer script."
 exit 0
 
 fi
-
