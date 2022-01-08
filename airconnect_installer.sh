@@ -7,31 +7,40 @@ if [ $(whoami) != 'root' ]; then
   exit 0
 
 
-elif [ -d /var/lib/airconnect ]; then
+# Declare Variables
 
-echo "Update AirConnect..."
+proj="AirConnect"
+pkg="airupnp-arm"
+log="airupnp"
+pkgname="airconnect"
+src="https://raw.githubusercontent.com/philippe44/$proj/master/bin/$pkg"
 
-cd /var/lib/airconnect
-rm airupnp-arm
-curl https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-arm -o airupnp-arm
-chmod 755 airupnp-arm
 
-systemctl restart airconnect
+elif [ -d /var/lib/$pkgname ]; then
 
-systemctl status airconnect
+echo "Update $proj..."
+
+cd /var/lib/$pkgname
+rm $pkg
+curl $src -o $pkg
+chmod 755 $pkg
+
+systemctl restart $pkgname
+
+systemctl status $pkgname
 
 
 else
 
-echo "Install AirConnect..."
+echo "Install $proj..."
 
-mkdir /var/lib/airconnect
-cd /var/lib/airconnect
-curl https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-arm -o airupnp-arm
-chmod 755 airupnp-arm
+mkdir /var/lib/$pkgname
+cd /var/lib/$pkgname
+curl $src -o $pkg
+chmod 755 $pkg
 
 cd /etc/systemd/system/
-cat > airconnect.service <<EOF
+cat > $pkgname.service <<EOF
 [Unit]
 Description=AirUPnP bridge
 After=network-online.target
@@ -39,7 +48,7 @@ Wants=network-online.target
 
 [Service]
 Type=forking
-ExecStart=/var/lib/airconnect/airupnp-arm -l 1000:2000 -z -f /var/log/airupnp.log
+ExecStart=/var/lib/$pkgname/$pkg -l 1000:2000 -z -f /var/log/$log.log
 Restart=on-failure
 RestartSec=30
 
@@ -47,11 +56,10 @@ RestartSec=30
 WantedBy=multi-user.target
 EOF
 
-cd /var/lib/airconnect
+cd /var/lib/$pkgname
 
-systemctl enable airconnect
-systemctl start airconnect
+systemctl enable --now $pkgname
 
-systemctl status airconnect
+systemctl status $pkgname 
 
 fi

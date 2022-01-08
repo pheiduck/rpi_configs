@@ -7,25 +7,30 @@ if [ $(whoami) != 'root' ]; then
   exit 0
 
 
-elif [ -d /var/lib/airconnect ]; then
+# Declare Variables
 
-echo "Uninstall AirConnect..."
+proj="AirConnect"
+log="airupnp"
+pkgname="airconnect"
 
-systemctl stop airconnect
-systemctl disable airconnect
 
-rm -rf /var/lib/airconnect
+elif [ -d /var/lib/$pkgname ]; then
 
-rm /etc/systemd/system/airconnect.service 
+echo "Uninstall $proj..."
 
-rm /var/log/airupnp.log
+systemctl disable --now $pkgname 
+
+rm -rf /var/lib/$pkgname
+
+rm /etc/systemd/system/$pkgname.service 
+
+rm /var/log/$log.log
 
 
 else
 	
-echo "AirConnect has already been uninstalled."
+echo "$proj has already been uninstalled."
 echo "For reinstallation use the installer script."
 exit 0
 
 fi
-
