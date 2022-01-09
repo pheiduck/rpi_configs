@@ -8,7 +8,7 @@ if [ $OS == "raspbian" ]; then
 
 # Check Privileges
 
-if [ $(whoami) != 'root' ]; then
+elif [ $(whoami) != 'root' ]; then
   echo "Please run with sudo privileges"
   exit 0
 
