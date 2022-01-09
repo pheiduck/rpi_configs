@@ -4,7 +4,7 @@ Basic config changes on inital setup of my Raspberry Pi's
 - Provides -
 
 ## Configs
-- zshrc (user and root)
+- zshrc (user / Pihole Chronometer Setup)
 - cmdline.txt (configs for 3.5 LCD)
 - hosts.allow (only allow connections from local and vpn network)
 - hosts.deny (deny all other hosts)
