@@ -60,5 +60,3 @@ EOF
   systemctl status airconnect
 
 fi
-
-
