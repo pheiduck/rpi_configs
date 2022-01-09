@@ -1,8 +1,14 @@
 #!/bin/bash
 
+# Check OS
+
+OS=$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)
+
+if [ $OS == "raspbian" ]; then
+
 # Check Privileges
 
-if [ $(whoami) != 'root' ]; then
+elif [ $(whoami) != 'root' ]; then
   echo "Please run with sudo privileges"
   exit 0
 
