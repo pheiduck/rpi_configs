@@ -1,16 +1,17 @@
 #!/bin/bash
 
+# Check Privileges
+
+if [ $(whoami) != 'root' ]; then
+  echo "Please run with sudo privileges"
+  exit 0
+
+
 # Check OS
 
 OS=$(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release)
 
-if [ $OS == "raspbian" ]; then
-
-# Check Privileges
-
-elif [ $(whoami) != 'root' ]; then
-  echo "Please run with sudo privileges"
-  exit 0
+elif [ $OS == "raspbian" ]; then
 
 
 elif [ -d /var/lib/airconnect ]; then
