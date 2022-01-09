@@ -1,7 +1,6 @@
 # rpi_configs
 
 Basic config changes on inital setup of my Raspberry Pi's
-- Provides -
 
 ## Configs
 - zshrc (user / Pihole Chronometer Setup)
