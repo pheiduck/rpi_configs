@@ -16,4 +16,5 @@ jobs:
             sudo chmod +x airconnect_installer.sh
             sudo chmod +x airconnect_uninstaller.sh
             sudo ./airconnect_installer.sh
+            sudo ./airconnect_installer.sh
             sudo ./airconnect_uninstaller.sh
