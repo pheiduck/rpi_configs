@@ -21,7 +21,9 @@ elif [ -d /var/lib/airconnect ]; then
   rm airupnp-arm
   curl https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-arm -o airupnp-arm
   chmod 755 airupnp-arm
-
+  
+  systemctl daemon-reload
+  
   systemctl restart airconnect
 
   systemctl status airconnect

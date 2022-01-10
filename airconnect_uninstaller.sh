@@ -7,12 +7,6 @@ if [ $(whoami) != 'root' ]; then
   exit 0
 
 
-# Check OS
-elif [ $(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release) != 'raspbian' ]; then
-  echo "You are trying to install this on an unsupported distribution."
-  echo "Only the Raspberry Pi OS is supported."
-
-
 elif [ -d /var/lib/airconnect ]; then
 
   echo "Uninstall AirConnect..."
