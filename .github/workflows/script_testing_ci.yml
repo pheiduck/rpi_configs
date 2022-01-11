@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@main
-    - uses: pguyot/arm-runner-action@main
+    - uses: 2010019970909/arm-runner-action@main
       with:
         commands: |
             sudo apt update
