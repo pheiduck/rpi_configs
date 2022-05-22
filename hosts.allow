@@ -8,4 +8,4 @@
 # daemon name. See rpcbind(8) and rpc.mountd(8) for further information.
 #
 
-sshd : <IP>/<SUBMASK>
+sshd : <IP>/<CIDR>

@@ -1,0 +1,15 @@
+[Unit]
+Description=Certificate renewal timer for %I
+Documentation=https://smallstep.com/docs/step-ca/certificate-authority-server-production
+
+[Timer]
+Persistent=true
+
+OnCalendar=*:1/5
+
+AccuracySec=1us
+
+RandomizedDelaySec=5m
+
+[Install]
+WantedBy=timers.target
