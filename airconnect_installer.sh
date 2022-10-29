@@ -6,13 +6,12 @@ if [ $(whoami) != 'root' ]; then
   echo "Please run with sudo privileges"
   exit 0
 
-
 # Check OS
+
 elif [ $(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release) != 'raspbian' ]; then
   echo "You are trying to install this on an unsupported distribution."
   echo "Only the Raspberry Pi OS is supported."
   exit 0
-
 
 elif [ -d /var/lib/airconnect ]; then
 
@@ -28,7 +27,6 @@ elif [ -d /var/lib/airconnect ]; then
   systemctl restart airupnp
 
   systemctl status airupnp
-
 
 else
 

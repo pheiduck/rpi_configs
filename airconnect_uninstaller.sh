@@ -6,7 +6,6 @@ if [ $(whoami) != 'root' ]; then
   echo "Please run with sudo privileges"
   exit 0
 
-
 elif [ -d /var/lib/airconnect ]; then
 
   echo "Uninstall AirConnect..."
