@@ -20,12 +20,12 @@ Basic config changes on inital setup of my Raspberry Pi's
 
 # airconnect_installer.sh:
 ```
-curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer.sh | bash
+curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer.sh | zsh
 ```
 
 # airconnect_uninstaller.sh:
 ```
-curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_uninstaller.sh | bash
+curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_uninstaller.sh | zsh
 ```
 
 ## ToDo's
