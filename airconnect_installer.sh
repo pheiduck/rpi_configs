@@ -14,8 +14,8 @@ elif [ $(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release) != 'raspbian' ]; then
   exit 0
 
 elif [ -d /var/lib/airconnect ]; then
-
-  echo "Update AirConnect..."
+  GREEN='\033[1;32m'
+  echo "${GREEN}Update AirConnect..."
 
   cd /var/lib/airconnect
   rm -f *
@@ -30,7 +30,8 @@ elif [ -d /var/lib/airconnect ]; then
 
 else
 
-  echo "Install AirConnect..."
+  GREEN='\033[0;32m'
+  echo "${GREEN}Install AirConnect..."
 
   mkdir /var/lib/airconnect
   cd /var/lib/airconnect

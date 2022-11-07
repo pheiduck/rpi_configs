@@ -7,8 +7,8 @@ if [ $(whoami) != 'root' ]; then
   exit 0
 
 elif [ -d /var/lib/airconnect ]; then
-
-  echo "Uninstall AirConnect..."
+  RED='\033[0;31m'
+  echo "${RED}Uninstall AirConnect..."
 
   systemctl disable --now airupnp
 
