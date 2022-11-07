@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Check Privileges
 
@@ -8,7 +8,8 @@ if [ $(whoami) != 'root' ]; then
 
 elif [ -d /var/lib/airconnect ]; then
   RED='\033[0;31m'
-  echo "${RED}Uninstall AirConnect..."
+  NC='\033[0m'
+  echo "${RED}Uninstall AirConnect...${NC}"
 
   systemctl disable --now airupnp
 

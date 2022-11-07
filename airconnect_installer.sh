@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Check Privileges
 
@@ -15,7 +15,8 @@ elif [ $(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release) != 'raspbian' ]; then
 
 elif [ -d /var/lib/airconnect ]; then
   GREEN='\033[1;32m'
-  echo "${GREEN}Update AirConnect..."
+  NC='\033[0m'
+  echo "${GREEN}Update AirConnect...${NC}"
 
   cd /var/lib/airconnect
   rm -f *
@@ -31,7 +32,8 @@ elif [ -d /var/lib/airconnect ]; then
 else
 
   GREEN='\033[0;32m'
-  echo "${GREEN}Install AirConnect..."
+  NC='\033[0m'
+  echo "${GREEN}Install AirConnect...${NC}"
 
   mkdir /var/lib/airconnect
   cd /var/lib/airconnect
