@@ -3,7 +3,9 @@
 # Check Privileges
 
 if [ $(whoami) != 'root' ]; then
-  echo "Please run with sudo privileges"
+  YELLOW='\033[1;33m'
+  NC='\033[0m'
+  echo "${YELLOW}Please run with sudo privileges${NC}"
   exit 0
 
 elif [ -d /var/lib/airconnect ]; then
@@ -18,9 +20,10 @@ elif [ -d /var/lib/airconnect ]; then
   rm /etc/systemd/system/airupnp.service 
 
 else
-	
-  echo "AirConnect has already been uninstalled."
-  echo "For reinstallation use the installer script."
+  YELLOW='\033[0;33m'
+  NC='\033[0m'
+  echo "${YELLOW}AirConnect has already been uninstalled."
+  echo "For reinstallation use the installer script.${NC}"
   exit 0
 
 fi

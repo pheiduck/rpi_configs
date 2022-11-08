@@ -3,14 +3,18 @@
 # Check Privileges
 
 if [ $(whoami) != 'root' ]; then
-  echo "Please run with sudo privileges"
+  YELLOW='\033[1;33m'
+  NC='\033[0m'
+  echo "${YELLOW}Please run with sudo privileges${NC}"
   exit 0
 
 # Check OS
 
 elif [ $(awk -F= '$1=="ID" { print $2 ;}' /etc/os-release) != 'raspbian' ]; then
-  echo "You are trying to install this on an unsupported distribution."
-  echo "Only the Raspberry Pi OS is supported."
+  YELLOW='\033[1;33m'
+  NC='\033[0m'
+  echo "${YELLOW}You are trying to install this on an unsupported distribution."
+  echo "Only the Raspberry Pi OS is supported.${NC}"
   exit 0
 
 elif [ -d /var/lib/airconnect ]; then
