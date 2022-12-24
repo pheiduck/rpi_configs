@@ -24,7 +24,7 @@ elif [ -d /var/lib/airconnect ]; then
 
   cd /var/lib/airconnect
   rm -f *
-  curl https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-linux-arm -o airupnp-arm
+  curl --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-linux-arm -o airupnp-arm
   chmod 755 airupnp-arm
   
   systemctl daemon-reload
@@ -41,7 +41,7 @@ else
 
   mkdir /var/lib/airconnect
   cd /var/lib/airconnect
-  curl https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-linux-arm -o airupnp-arm
+  curl --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-linux-arm -o airupnp-arm
   chmod 755 airupnp-arm
 
   cd /etc/systemd/system/
