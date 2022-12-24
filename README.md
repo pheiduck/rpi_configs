@@ -22,7 +22,10 @@ Basic config changes on inital setup of my Raspberry Pi's
 ```
 curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer.sh | zsh
 ```
-
+#  airconnect print logs:
+```
+journalctl -u airupnp.service -f
+```
 # airconnect_uninstaller.sh:
 ```
 curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_uninstaller.sh | zsh
