@@ -12,7 +12,7 @@ jobs:
         id: runcmd
         with:
           arch: armv7
-          distro: ubuntu18.04
+          distro: ubuntu_latest
 
           githubToken: ${{ github.token }}
 
