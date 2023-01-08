@@ -4,14 +4,14 @@ on: [push]
 jobs:
   armv7_job:
     runs-on: ubuntu-latest
-    name: Build on ubuntu armv7
+    name: Build on ubuntu aarch64
     steps:
       - uses: actions/checkout@main
       - uses: uraimo/run-on-arch-action@master
         name: Run commands
         id: runcmd
         with:
-          arch: armv7
+          arch: aarch64
           distro: ubuntu_latest
 
           githubToken: ${{ github.token }}
