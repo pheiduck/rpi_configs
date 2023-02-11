@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+# Debug Option
+set -eou pipefail
+
 # Check Privileges
 
 if [ $(whoami) != 'root' ]; then
