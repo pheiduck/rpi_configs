@@ -1,0 +1,70 @@
+#!/bin/zsh
+
+# Check Privileges
+
+if [ $(whoami) != 'root' ]; then
+  YELLOW='\033[1;33m'
+  NC='\033[0m'
+  echo "${YELLOW}Please run with sudo privileges${NC}"
+  exit 1
+
+# Check OS
+
+elif [ $(uname -s) != "Linux" ]; then
+  YELLOW='\033[1;33m'
+  RED='\033[0;31m'
+  NC='\033[0m'
+  echo "${RED}ERROR: ${YELLOW}You are trying to install this on an unsupported System."
+  echo "This Installer is only supported by Linux Distributions.${NC}"
+  exit 1
+
+elif [ -d /var/lib/airconnect ]; then
+  GREEN='\033[1;32m'
+  NC='\033[0m'
+  echo "${GREEN}Update AirConnect...${NC}"
+
+  cd /var/lib/airconnect
+  rm -f *
+  curl --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-linux-$(uname -m) -o airupnp-arm
+  chmod 755 airupnp-arm
+  
+  systemctl daemon-reload
+  
+  systemctl restart airupnp
+
+  systemctl status airupnp
+
+else
+
+  GREEN='\033[0;32m'
+  NC='\033[0m'
+  echo "${GREEN}Install AirConnect...${NC}"
+
+  mkdir /var/lib/airconnect
+  cd /var/lib/airconnect
+  curl --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-linux-$(uname -m) -o airupnp-arm
+  chmod 755 airupnp-arm
+
+  cd /etc/systemd/system/
+  cat > airupnp.service <<EOF
+  [Unit]
+  Description=AirUPnP bridge
+  After=network-online.target
+  Wants=network-online.target
+
+  [Service]
+  ExecStart=/var/lib/airconnect/airupnp-arm -l 1000:2000 -Z -x /var/lib/airconnect/airupnp.xml
+  Restart=on-failure
+  RestartSec=30
+
+  [Install]
+  WantedBy=multi-user.target
+EOF
+
+  cd /var/lib/airconnect
+
+  systemctl enable --now airupnp
+
+  systemctl status airupnp
+
+fi
