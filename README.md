@@ -12,17 +12,17 @@ Basic config changes on inital setup of my Raspberry Pi's
 - nginx conf for pihole
 
 ## Scripts
-- airconnect_installer.sh (Install <a href="https://github.com/philippe44/AirConnect">AirConnect</a>, to get AirPlay on Sonos Products which doesn't have it builtin.
+- airconnect_installer (Install <a href="https://github.com/philippe44/AirConnect">AirConnect</a>, to get AirPlay on Sonos Products which doesn't have it builtin.
   Updating <a href="https://github.com/philippe44/AirConnect">AirConnect</a> if exists on the System.)
-- airconnect_uninstaller.sh (Uninstall <a href="https://github.com/philippe44/AirConnect">AirConnect</a>)
+- airconnect_uninstaller (Uninstall <a href="https://github.com/philippe44/AirConnect">AirConnect</a>)
 
 ## Downloads
 
-# airconnect_installer.sh:
+# airconnect_installer:
 ```
 curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer | zsh
 ```
-# airconnect_uninstaller.sh:
+# airconnect_uninstaller:
 ```
 curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_uninstaller | zsh
 ```
