@@ -1,0 +1,24 @@
+name: CI
+on: [push]
+
+jobs:
+  armv7_job:
+    runs-on: ubuntu-latest
+    name: Build on ubuntu aarch64
+    steps:
+      - uses: actions/checkout@main
+      - uses: uraimo/run-on-arch-action@master
+        name: Run commands
+        id: runcmd
+        with:
+          arch: aarch64
+          distro: ubuntu_latest
+
+          githubToken: ${{ github.token }}
+
+          run: |
+            apt update
+            apt install sudo curl zsh -y
+            sudo curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer | zsh
+            sudo curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer | zsh
+            sudo curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_uninstaller | zsh
