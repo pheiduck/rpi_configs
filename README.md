@@ -1,5 +1,6 @@
 # rpi_configs
 
+
 Basic config changes on initial setup of my Raspberry Pi's
 
 ## Configs
@@ -23,6 +24,7 @@ Basic config changes on initial setup of my Raspberry Pi's
 curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer | zsh
 ```
 #### Hint: For Update run the Install Script again.
+
 # airconnect_uninstaller:
 ```
 curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_uninstaller | zsh
