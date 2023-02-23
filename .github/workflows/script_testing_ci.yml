@@ -18,7 +18,7 @@ jobs:
 
           run: |
             apt update
-            apt install sudo curl zsh -y
+            apt install sudo systemd curl zsh -y
             sudo curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer | zsh
             sudo curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer | zsh
             sudo curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_uninstaller | zsh
