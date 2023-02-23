@@ -12,11 +12,11 @@ if [ $(whoami) != 'root' ]; then
 
 OS_ID=$(cat /etc/os-release |grep "ID=" |cut -c 4-)
 
-elif [ "${OS_ID}" != "debian" ]  && [ "${OS_ID}" != "debian" ] && [ "${OS_ID}" != "ubuntu" ]; then
+elif [ $(uname -s) != "Linux" ]; then
   YELLOW='\033[1;33m'
   NC='\033[0m'
-  echo "${YELLOW}You are trying to install this on an unsupported distribution."
-  echo "Supported distributions are: Raspberry Pi OS 32/64 bit, Debian (ARM image), Ubuntu (ARM image).${NC}"
+  echo "${YELLOW}You are trying to install this on an unsupported System."
+  echo "This Installer is only supported by Linux Distributions.${NC}"
   exit 0
 
 elif [ -d /var/lib/airconnect ]; then
