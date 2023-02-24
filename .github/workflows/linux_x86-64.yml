@@ -1,0 +1,15 @@
+name: Linux x86_64
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: Run commands
+        run: |
+          apt update
+          apt install sudo systemd curl zsh -y
+          sudo curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer | zsh
+          sudo curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer | zsh
+          sudo curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_uninstaller | zsh
