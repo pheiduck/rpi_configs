@@ -8,8 +8,8 @@ jobs:
       - uses: actions/checkout@main
       - name: Run commands
         run: |
-          sudo apt update
-          sudo apt install zsh -y
+          sudo apt update 1> /dev/null
+          sudo apt install zsh -y 1> /dev/null
           curl -O https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer
           curl -O https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_uninstaller
           sudo zsh airconnect_installer
