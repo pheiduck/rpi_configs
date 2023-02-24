@@ -1,4 +1,4 @@
-name: CI
+name: Linux aarch64
 on: [push]
 
 jobs:
