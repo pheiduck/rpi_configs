@@ -17,8 +17,8 @@ jobs:
           githubToken: ${{ github.token }}
 
           run: |
-            apt update
-            apt install sudo systemd curl zsh -y
+            apt update 1> /dev/null
+            apt install sudo systemd curl zsh -y 1> /dev/null
             sudo curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer | zsh
             sudo curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer | zsh
             sudo curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_uninstaller | zsh
