@@ -2,7 +2,7 @@ name: Linux aarch64
 on: [push]
 
 jobs:
-  armv7_job:
+  aarch64_job:
     runs-on: ubuntu-latest
     name: Build on ubuntu aarch64
     steps:
