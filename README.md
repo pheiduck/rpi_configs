@@ -19,7 +19,9 @@ Basic config changes on initial setup of my Raspberry Pi's
 
 ## Downloads
 
-# airconnect_installer: arm(64) / x86_64
+#### Installer supports Linux w/ systemd only.
+
+# airconnect_installer:
 ```
 curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer | zsh
 ```
