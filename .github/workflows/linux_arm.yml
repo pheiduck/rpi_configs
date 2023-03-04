@@ -4,6 +4,7 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Build on virtualized Raspberry Pi
     steps:
     - uses: actions/checkout@main
     - uses: pguyot/arm-runner-action@main
