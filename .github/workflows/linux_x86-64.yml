@@ -8,12 +8,11 @@ jobs:
         os: [ubuntu-20.04, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: tecolicom/actions-use-apt-tools@main
-        with:
-          tools: zsh
       - uses: actions/checkout@main
       - name: Testing Shell script
         run: |
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          brew install zsh curl 1> /dev/null
           sudo zsh airconnect_installer
           sudo zsh airconnect_installer
           sudo zsh airconnect_uninstaller
