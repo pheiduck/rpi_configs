@@ -19,4 +19,3 @@ case $(tty) in /dev/tty1)
   pihole -c
   exit 0
 esac
-neofetch
