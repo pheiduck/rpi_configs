@@ -1,0 +1,17 @@
+name: Raspberry Pi
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build on virtualized Raspberry Pi
+    steps:
+    - uses: actions/checkout@main
+    - uses: pguyot/arm-runner-action@main
+      with:
+        commands: |
+            apt update 1> /dev/null
+            apt install curl zsh -y 1> /dev/null
+            sudo zsh airconnect_installer
+            sudo zsh airconnect_installer
+            sudo zsh airconnect_uninstaller

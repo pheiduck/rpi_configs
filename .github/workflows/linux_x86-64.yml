@@ -1,0 +1,25 @@
+name: Linux x86_64
+on: [push]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: tecolicom/actions-use-apt-tools@main
+        with:
+          tools: zsh
+      - uses: actions/checkout@main
+      - name: Install dependencies
+        run: |
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          brew install curl 1> /dev/null
+          sudo apt-get purge curl -y 1> /dev/null
+          sudo ln -s /home/linuxbrew/.linuxbrew/bin/curl /usr/bin/curl
+      - name: Testing Shell script
+        run: |
+          sudo zsh airconnect_installer
+          sudo zsh airconnect_installer
+          sudo zsh airconnect_uninstaller
