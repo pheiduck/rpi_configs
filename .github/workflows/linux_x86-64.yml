@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: tecolicom/actions-use-apt-tools@main
         with:
-          tools: zsh
+          tools: zsh zsh-common
       - uses: actions/checkout@main
       - name: Install dependencies
         run: |
