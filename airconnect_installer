@@ -26,7 +26,7 @@ elif [ -d /var/lib/airconnect ]; then
   systemctl stop airupnp
 
   cd /var/lib/airconnect
-  curl --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-linux-$(uname -m) -o airupnp-arm
+  curl --compressed --progress-bar https://github.com/philippe44/AirConnect/raw/c3dfcdb3eefbe6d473c49db9bb2d5e46d9f6af6d/bin/airupnp-linux-$(uname -m) -o airupnp-arm
   chmod 755 airupnp-arm
   
   systemctl daemon-reload
@@ -41,7 +41,7 @@ else
   NC='\033[0m'
   echo "${GREEN}Install AirConnect...${NC}"
 
-  curl --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/master/bin/airupnp-linux-$(uname -m) -o airupnp-arm --output-dir /var/lib/airconnect --create-dirs
+  curl --compressed --progress-bar https://github.com/philippe44/AirConnect/raw/c3dfcdb3eefbe6d473c49db9bb2d5e46d9f6af6d/bin/airupnp-linux-$(uname -m) -o airupnp-arm --output-dir /var/lib/airconnect --create-dirs
   cd /var/lib/airconnect
   chmod 755 airupnp-arm
 
