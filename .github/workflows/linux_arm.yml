@@ -1,0 +1,27 @@
+name: Build on virtualized Raspberry Pi
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [armv6l, armv7l, aarch64]
+        include:
+        - arch: armv6l
+          cpu: arm1176
+        - arch: armv7l
+          cpu: cortex-a7
+        - arch: aarch64
+          cpu: cortex-a53
+    steps:
+    - uses: actions/checkout@main
+    - uses: pguyot/arm-runner-action@main
+      with:
+        cpu: ${{ matrix.cpu }}
+        commands: |
+            apt-get update 1> /dev/null
+            apt-get install curl zsh -y 1> /dev/null
+            sudo zsh airconnect_installer
+            sudo zsh airconnect_installer
+            sudo zsh airconnect_uninstaller
