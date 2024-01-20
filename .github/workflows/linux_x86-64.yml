@@ -8,9 +8,9 @@ jobs:
         os: [ubuntu-20.04, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: tecolicom/actions-use-apt-tools@main
+      - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
-          tools: zsh zsh-common
+          packages: zsh zsh-common
       - uses: actions/checkout@main
       - name: Install dependencies
         run: |
