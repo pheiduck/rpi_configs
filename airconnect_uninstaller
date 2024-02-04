@@ -25,7 +25,7 @@ elif [ -d /var/lib/airconnect ]; then
 
   systemctl disable --now airupnp
 
-  rm -rf /var/lib/airconnect
+  rm -r /var/lib/airconnect
 
   rm /etc/systemd/system/airupnp.service
 
