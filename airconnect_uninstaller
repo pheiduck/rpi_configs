@@ -37,6 +37,6 @@ else
   NC='\033[0m'
   echo "${YELLOW}AirConnect has already been uninstalled."
   echo "For reinstallation use the installer script.${NC}"
-  exit 0
+  exit 1
 
 fi
