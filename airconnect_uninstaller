@@ -27,7 +27,7 @@ elif [ -d /var/lib/airconnect ]; then
 
   rm -rv /var/lib/airconnect
 
-  rm /etc/systemd/system/airupnp.service
+  rm -v /etc/systemd/system/airupnp.service
 
   systemctl daemon-reload
 
