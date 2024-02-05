@@ -22,14 +22,13 @@ elif [ -d /var/lib/airconnect ]; then
   GREEN='\033[1;32m'
   NC='\033[0m'
   echo "${GREEN}Update AirConnect...${NC}"
-  VER="1.7.0"
 
   systemctl stop airupnp
 
   pushd /var/lib/airconnect
-  curl -LO --compressed --progress-bar https://github.com/philippe44/AirConnect/releases/download/${VER}/AirConnect-${VER}.zip
-  unzip -p AirConnect-${VER}.zip airupnp-linux-$(uname -m) >airupnp-linux-arm
-  rm AirConnect-*.zip
+  curl --compressed --silent https://api.github.com/repos/philippe44/AirConnect/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs curl --compressed --progress-bar -Lo airconnect.zip
+  unzip -p airconnect.zip airupnp-linux-$(uname -m) >airupnp-linux-arm
+  rm airconnect.zip
   chmod 755 airupnp-linux-arm
   popd
 
