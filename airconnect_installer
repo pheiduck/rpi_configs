@@ -50,20 +50,7 @@ else
   popd
 
   pushd /etc/systemd/system/
-  cat > airupnp.service <<EOF
-  [Unit]
-  Description=AirUPnP bridge
-  After=network-online.target
-  Wants=network-online.target
-
-  [Service]
-  ExecStart=/var/lib/airconnect/airupnp-linux-arm -c wav -g 0 -l 1000:2000 -Z -x /var/lib/airconnect/airupnp.xml
-  Restart=on-failure
-  RestartSec=30
-
-  [Install]
-  WantedBy=multi-user.target
-EOF
+  curl -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airupnp.service
   popd
 
   systemctl enable --now airupnp
