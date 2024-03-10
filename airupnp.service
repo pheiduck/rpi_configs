@@ -23,6 +23,8 @@ RestrictRealtime=yes
 RestrictSUIDSGID=yes
 MemoryDenyWriteExecute=yes
 LockPersonality=yes
+ProtectProc=yes
+ProcSubset=yes
 
 [Install]
 WantedBy=multi-user.target
