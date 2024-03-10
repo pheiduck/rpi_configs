@@ -8,23 +8,24 @@ ExecStart=/var/lib/airconnect/airupnp-linux-arm -c wav -g 0 -l 1000:2000 -Z -x /
 Restart=on-failure
 RestartSec=30
 NoNewPrivileges=yes
+PrivateIPC=yes
 PrivateTmp=yes
 PrivateDevices=yes
 DevicePolicy=closed
+ProtectProc=noaccess
 ProtectSystem=strict
 ProtectHome=yes
 ProtectControlGroups=yes
 ProtectKernelModules=yes
 ProtectKernelTunables=yes
 ProtectKernelLogs=yes
+RestrictNetworkInterfaces=eth0
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
 RestrictNamespaces=yes
 RestrictRealtime=yes
 RestrictSUIDSGID=yes
 MemoryDenyWriteExecute=yes
 LockPersonality=yes
-ProtectProc=yes
-ProcSubset=yes
 
 [Install]
 WantedBy=multi-user.target
