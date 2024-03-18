@@ -1,4 +1,4 @@
-name: Build on virtualized Raspberry Pi
+name: Linux arm6/arm7/aarch64
 on: [push]
 
 jobs:
