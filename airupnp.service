@@ -12,7 +12,6 @@ PrivateIPC=yes
 PrivateTmp=yes
 PrivateDevices=yes
 DevicePolicy=closed
-ProtectProc=noaccess
 ProtectSystem=strict
 ReadWritePaths=/var/lib/airconnect
 ProtectHome=yes
