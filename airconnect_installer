@@ -27,9 +27,9 @@ elif [ -d /var/lib/airconnect ]; then
 
   pushd /var/lib/airconnect
   curl --compressed --silent https://api.github.com/repos/philippe44/AirConnect/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs curl --compressed --progress-bar -Lo airconnect.zip
-  unzip -p airconnect.zip airupnp-linux-$(uname -m) >airupnp-linux-arm
+  unzip -p airconnect.zip airupnp-linux-$(uname -m) >airupnp-linux
   rm airconnect.zip
-  chmod 755 airupnp-linux-arm
+  chmod 755 airupnp-linux
   popd
 
   systemctl daemon-reload
@@ -44,9 +44,9 @@ else
   NC='\033[0m'
   echo "${GREEN}Install AirConnect...${NC}"
 
-  curl --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux-arm --output-dir /var/lib/airconnect --create-dirs
+  curl --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir /var/lib/airconnect --create-dirs
   pushd /var/lib/airconnect
-  chmod 755 airupnp-linux-arm
+  chmod 755 airupnp-linux
   popd
 
   pushd /etc/systemd/system/
