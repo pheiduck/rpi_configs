@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+export ZSTD_CLEVEL=5
+export ZSTD_NBTHREADS=2
+
+backupDate=$(date '+%d%m%y')
+
+for dir in docker/*
+do
+    pushd ${dir}
+    docker-compose down
+    popd
+done
+
+tar --create --zstd --file docker-backup-$backupDate.tar.zst docker
+
+for dir in docker/*
+do
+    pushd ${dir}
+    docker-compose up -d
+    popd
+done
