@@ -1,5 +1,12 @@
 #!/usr/bin/env sh
 
+if [ $(whoami) != 'root' ]; then
+  YELLOW='\033[1;33m'
+  NC='\033[0m'
+  echo "${YELLOW}Please run with sudo privileges${NC}"
+  exit 1
+else
+
 export ZSTD_CLEVEL=5
 export ZSTD_NBTHREADS=2
 
@@ -20,3 +27,4 @@ do
     docker-compose up -d
     popd
 done
+fi
