@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+# Variables
+bindir='/var/lib/airconnect/'
+sysdir='/etc/systemd/system/'
+
 # Check Privileges
 
 if [ $(whoami) != 'root' ]; then
@@ -18,16 +22,16 @@ elif [ $(uname -s) != "Linux" ]; then
   echo "This Uninstaller is only supported by Linux Distributions.${NC}"
   exit 1
 
-elif [ -d /var/lib/airconnect ]; then
+elif [ -d "${bindir}" ]; then
   RED='\033[0;31m'
   NC='\033[0m'
   echo "${RED}Uninstall AirConnect...${NC}"
 
   systemctl disable --now airupnp
 
-  rm -rv /var/lib/airconnect
+  rm -rv "${bindir}"
 
-  rm -v /etc/systemd/system/airupnp.service
+  rm -v "${sysdir}"airupnp.service
 
   systemctl daemon-reload
 
