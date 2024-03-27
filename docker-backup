@@ -27,4 +27,7 @@ do
     docker-compose up -d
     popd
 done
+
+scp -O docker-backup-$backupDate.tar.zst Server:path/to/backupdir
+
 fi
