@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+# Variables
+bindir='/var/lib/airconnect/'
+sysdir='/etc/systemd/system/'
+
 # Check Privileges
 
 if [ $(whoami) != 'root' ]; then
@@ -18,14 +22,14 @@ elif [ $(uname -s) != "Linux" ]; then
   echo "This Installer is only supported by Linux Distributions.${NC}"
   exit 1
 
-elif [ -d /var/lib/airconnect ]; then
+elif [ -d "${bindir}" ]; then
   GREEN='\033[1;32m'
   NC='\033[0m'
   echo "${GREEN}Update AirConnect...${NC}"
 
   systemctl stop airupnp
 
-  pushd /var/lib/airconnect
+  pushd "${bindir}"
   curl --compressed --silent https://api.github.com/repos/philippe44/AirConnect/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs curl --compressed --progress-bar -Lo airconnect.zip
   unzip -p airconnect.zip airupnp-linux-$(uname -m) >airupnp-linux
   rm airconnect.zip
@@ -44,12 +48,12 @@ else
   NC='\033[0m'
   echo "${GREEN}Install AirConnect...${NC}"
 
-  curl --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir /var/lib/airconnect --create-dirs
-  pushd /var/lib/airconnect
+  curl --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir "${bindir}" --create-dirs
+  pushd "${bindir}"
   chmod 755 airupnp-linux
   popd
 
-  pushd /etc/systemd/system/
+  pushd "${sysdir}"
   curl -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airupnp.service
   popd
 
