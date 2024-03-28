@@ -19,7 +19,10 @@ do
     popd
 done
 
+pushd /path/to/userhome
 tar --create --zstd --file docker-backup-$backupDate.tar.zst docker
+scp -O docker-backup-$backupDate.tar.zst Server:path/to/backupdir
+popd
 
 for dir in docker/*
 do
@@ -27,7 +30,5 @@ do
     docker-compose up -d
     popd
 done
-
-scp -O docker-backup-$backupDate.tar.zst Server:path/to/backupdir
 
 fi
