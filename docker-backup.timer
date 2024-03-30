@@ -1,0 +1,9 @@
+[Unit]
+Description=Run docker backup
+
+[Timer]
+OnCalendar=*-*-* 4:00:00
+Unit=docker-backup.service
+
+[Install]
+WantedBy=multi-user.target
