@@ -19,10 +19,14 @@ do
     popd
 done
 
+sleep 5
+
 pushd /path/to/userhome
 tar --create --zstd --file docker-backup-$backupDate.tar.zst docker
 scp -O docker-backup-$backupDate.tar.zst Server:path/to/backupdir
 popd
+
+sleep 5
 
 for dir in docker/*
 do
