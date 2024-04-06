@@ -1,5 +1,5 @@
 [Unit]
-Description=Run docker backup
+Description=Docker Backup Timer
 
 [Timer]
 OnCalendar=*-*-* 4:00:00
