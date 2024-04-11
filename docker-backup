@@ -8,11 +8,11 @@ if [ $(whoami) != 'root' ]; then
   exit 1
 else
 
-##############################################
-# Exports some ZStandard Copression options: #
-# Copression Level (default is 3 if not set) #
-# and how many logical cores used.           #
-##############################################
+###############################################
+# Exports some ZStandard Compression options: #
+# Compression Level (default is 3 if not set) #
+# and how many logical cores used.            #
+###############################################
 export ZSTD_CLEVEL=5
 export ZSTD_NBTHREADS=2
 
