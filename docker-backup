@@ -33,7 +33,7 @@ sleep 15
 
 # Backing up Docker Files and related data
 pushd /path/to/userhome
-tar --create --zstd --file docker-backup-$backupDate.tar.zst --checkpoint=#100 docker
+tar --create --zstd --file docker-backup-$backupDate.tar.zst --checkpoint=.100 docker
 scp -O docker-backup-$backupDate.tar.zst Server:path/to/backupdir
 popd
 
