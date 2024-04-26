@@ -10,7 +10,9 @@ jobs:
     steps:
       - name: Setup ubuntu-24.04
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: sudo sed -i 's/jammy/noble/' /etc/apt/sources.list
+        run: | 
+          sudo sed -i 's/jammy/noble/' /etc/apt/sources.list
+          sudo apt-get update
       - run: sudo rm -f /etc/apt/sources.list.d/*
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
