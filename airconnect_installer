@@ -8,7 +8,7 @@ sysdir='/etc/systemd/system/'
 if [ $(whoami) != 'root' ]; then
   YELLOW='\033[1;33m'
   NC='\033[0m'
-  echo "${YELLOW}Please run with sudo privileges${NC}"
+  echo "${YELLOW}WARNING: ${NC}Please run with sudo privileges."
   exit 1
 
 # Check OS
@@ -16,8 +16,8 @@ elif [ $(uname -s) != "Linux" ]; then
   YELLOW='\033[1;33m'
   RED='\033[0;31m'
   NC='\033[0m'
-  echo "${RED}ERROR: ${YELLOW}You are trying to install this on an unsupported System."
-  echo "This Installer is only supported by Linux Distributions.${NC}"
+  echo "${RED}ERROR: ${NC}You are trying to install this on an unsupported System."
+  echo "This Installer is only supported by Linux Distributions."
   exit 1
 
 elif [ -d "${bindir}" ]; then
