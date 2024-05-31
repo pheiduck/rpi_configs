@@ -36,8 +36,7 @@ else
 
   RED='\033[0;31m'
   NC='\033[0m'
-  echo "${RED}ERROR: ${NC}AirConnect has already been uninstalled.\n
-        For reinstall use the installer script."
+  echo "${RED}ERROR: ${NC}AirConnect has already been uninstalled.\nFor reinstall use the installer script."
   exit 1
 
 fi
