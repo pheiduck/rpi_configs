@@ -26,5 +26,3 @@ jobs:
             sudo zsh airconnect_installer
             sudo zsh airconnect_uninstaller
             sudo zsh airconnect_uninstaller || true
-
-            
