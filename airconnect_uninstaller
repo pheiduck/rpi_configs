@@ -16,8 +16,7 @@ elif [ $(uname -s) != "Linux" ]; then
   YELLOW='\033[1;33m'
   RED='\033[0;31m'
   NC='\033[0m'
-  echo "${RED}ERROR: ${NC}Don't use the uninstaller on unsupported Systems!"
-  echo "This Uninstaller is only supported by Linux Distributions."
+  echo "${RED}ERROR: ${NC}Don't use the uninstaller on unsupported Systems!\nThis Uninstaller is only supported by Linux Distributions."
   exit 1
 
 elif [ -d "${bindir}" ]; then
@@ -37,8 +36,7 @@ else
 
   RED='\033[0;31m'
   NC='\033[0m'
-  echo "${RED}ERROR: ${NC}AirConnect has already been uninstalled."
-  echo "For reinstall use the installer script."
+  echo "${RED}ERROR: ${NC}AirConnect has already been uninstalled.\nFor reinstall use the installer script."
   exit 1
 
 fi
