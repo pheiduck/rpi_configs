@@ -17,7 +17,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-24.04' }}
         run: |
           sudo apt-get update
-          sudo apt-get install -y zsh zsh-common
+          sudo apt-get install -y zsh
       - uses: actions/checkout@main
       - name: Cache brew
         id: cache-brew
