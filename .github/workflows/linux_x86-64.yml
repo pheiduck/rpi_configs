@@ -10,8 +10,14 @@ jobs:
     steps:
       - run: sudo rm -f /etc/apt/sources.list.d/*
       - uses: awalsh128/cache-apt-pkgs-action@latest
+        if: ${{ matrix.os != 'ubuntu-24.04' }}
         with:
           packages: zsh zsh-common
+      - name: Install zsh
+        if: ${{ matrix.os == 'ubuntu-24.04' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get -y zsh zsh-common
       - uses: actions/checkout@main
       - name: Cache brew
         id: cache-brew
