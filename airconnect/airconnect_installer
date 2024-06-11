@@ -51,7 +51,7 @@ else
   popd
 
   pushd "${sysdir}"
-  curl -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airupnp.service
+  curl -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airupnp.service
   popd
 
   systemctl enable --now airupnp

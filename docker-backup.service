@@ -1,9 +1,0 @@
-[Unit]
-Description=Docker Backup Service
-
-[Service]
-WorkingDirectory=/home/username
-ExecStart=zsh docker-backup
-
-[Install]
-WantedBy=multi-user.target
