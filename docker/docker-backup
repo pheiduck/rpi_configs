@@ -1,0 +1,50 @@
+#!/usr/bin/env sh
+
+# Check privileged mode
+if [ $(whoami) != 'root' ]; then
+  YELLOW='\033[1;33m'
+  NC='\033[0m'
+  echo "${YELLOW}Please run with sudo privileges${NC}"
+  exit 1
+else
+
+###############################################
+# Exports some ZStandard Compression options: #
+# Compression Level (default is 3 if not set) #
+# and how many logical cores used.            #
+###############################################
+export ZSTD_CLEVEL=5
+export ZSTD_NBTHREADS=2
+
+# Defined on which date the Backup was taken
+backupDate=$(date '+%d%m%y')
+
+# Working Directory is set in the systemd service
+
+# Shutdown Docker Instances
+for dir in docker/*
+do
+    pushd ${dir}
+    docker-compose stop
+    popd
+done
+
+sleep 15
+
+# Backing up Docker Files and related data
+pushd /path/to/userhome
+tar --create --zstd --file docker-backup-$backupDate.tar.zst --checkpoint=.100 docker
+scp -O docker-backup-$backupDate.tar.zst Server:path/to/backupdir
+popd
+
+sleep 15
+
+# Startup Docker Instances
+for dir in docker/*
+do
+    pushd ${dir}
+    docker-compose start
+    popd
+done
+
+fi

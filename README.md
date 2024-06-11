@@ -25,13 +25,13 @@ Are you using bash?: https://github.com/pheiduck/rpi_configs/issues/10#issuecomm
 
 # airconnect_installer:
 ```
-curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_installer | zsh
+curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airconnect_installer | zsh
 ```
 #### Hint: For Update run the Install Script again.
 
 # airconnect_uninstaller:
 ```
-curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect_uninstaller | zsh
+curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airconnect_uninstaller | zsh
 ```
 #  airconnect print logs:
 ```

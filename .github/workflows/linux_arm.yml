@@ -22,6 +22,7 @@ jobs:
         commands: |
             apt-get update 1> /dev/null
             apt-get install curl zsh -y 1> /dev/null
+            cd airconnect
             sudo zsh airconnect_installer
             sudo zsh airconnect_installer
             sudo zsh airconnect_uninstaller

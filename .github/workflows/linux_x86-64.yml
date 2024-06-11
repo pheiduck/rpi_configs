@@ -29,6 +29,7 @@ jobs:
           sudo ln -s /home/linuxbrew/.linuxbrew/bin/curl /usr/bin/curl
       - name: Testing Shell script
         run: |
+          cd airconnect
           sudo zsh airconnect_installer
           sudo zsh airconnect_installer
           sudo zsh airconnect_uninstaller
