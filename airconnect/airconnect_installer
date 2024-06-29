@@ -54,6 +54,8 @@ else
   curl -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airupnp.service
   popd
 
+  systemctl daemon-reload
+
   systemctl enable --now airupnp
 
   systemctl status airupnp
