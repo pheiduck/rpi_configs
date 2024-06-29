@@ -8,7 +8,7 @@ sysdir='/etc/systemd/system/'
 if [ $(whoami) != 'root' ]; then
   YELLOW='\033[1;33m'
   NC='\033[0m'
-  echo "${YELLOW}WARNING: ${NC}Please run with sudo privileges."
+  printf "%s\n" "${YELLOW}WARNING: ${NC}Please run with sudo privileges."
   exit 1
 
 # Check OS
@@ -16,13 +16,13 @@ elif [ $(uname -s) != "Linux" ]; then
   YELLOW='\033[1;33m'
   RED='\033[0;31m'
   NC='\033[0m'
-  echo "${RED}ERROR: ${NC}Don't use the uninstaller on unsupported Systems!\nThis Uninstaller is only supported by Linux Distributions."
+  printf "%s\n" "${RED}ERROR: ${NC}Don't use the uninstaller on unsupported Systems!\nThis Uninstaller is only supported by Linux Distributions."
   exit 1
 
 elif [ -d "${bindir}" ]; then
   RED='\033[0;31m'
   NC='\033[0m'
-  echo "${RED}Uninstall AirConnect...${NC}"
+  printf "%s\n" "${RED}Uninstall AirConnect...${NC}"
 
   systemctl disable --now airupnp
 
@@ -36,7 +36,7 @@ else
 
   RED='\033[0;31m'
   NC='\033[0m'
-  echo "${RED}ERROR: ${NC}AirConnect has already been uninstalled.\nFor reinstall use the installer script."
+  printf "%s\n" "${RED}ERROR: ${NC}AirConnect has already been uninstalled.\nFor reinstall use the installer script."
   exit 1
 
 fi
