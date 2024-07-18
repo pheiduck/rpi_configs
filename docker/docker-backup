@@ -13,7 +13,7 @@ else
 # Compression Level (default is 3 if not set) #
 # and how many logical cores used.            #
 ###############################################
-export ZSTD_CLEVEL=5
+export ZSTD_CLEVEL=6
 export ZSTD_NBTHREADS=2
 
 # Defined on which date the Backup was taken
