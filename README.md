@@ -24,6 +24,11 @@ Basic config changes on initial setup of my Raspberry Pi's
 Are you using bash?: https://github.com/pheiduck/rpi_configs/issues/10#issuecomment-1519088347
 
 # airconnect_installer:
+Prepare debian 12 install **libssl1.1**
+```
+apt install libssl1.1
+```
+
 ```
 curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airconnect_installer | zsh
 ```
