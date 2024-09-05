@@ -46,7 +46,7 @@ else
   echo "${GREEN}Install AirConnect...${NC}"
 
   if [ $(grep ^VERSION_ID= /etc/os-release | cut -d'=' -f2) >= '11' ]; then
-    apt install libssl1.1 || true
+    apt install libssl1.1 || true 2> /dev/null
   fi
 
   curl --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir "${bindir}" --create-dirs
