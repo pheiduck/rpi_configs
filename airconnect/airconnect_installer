@@ -45,7 +45,7 @@ else
   NC='\033[0m'
   echo "${GREEN}Install AirConnect...${NC}"
 
-  if [ $(apt-get list --installed |grep libssl1.1) != 'libssl1.1' ]; then
+  if [ $(dpkg-query -W -f='${Status}' libssl1.1 2>/dev/null | grep -q "unknown ok not-installed") ]; then
     apt install -y libssl1.1
   fi
 
