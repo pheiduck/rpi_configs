@@ -46,7 +46,7 @@ else
   echo "${GREEN}Install AirConnect...${NC}"
 
   if [ $(dpkg-query -W -f='${Status}' libssl1.1 2>/dev/null | grep -q "unknown ok not-installed") ]; then
-    apt install -y libssl1.1
+    apt-get install -y libssl1.1
   fi
 
   curl --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir "${bindir}" --create-dirs
