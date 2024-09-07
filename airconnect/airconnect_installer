@@ -27,7 +27,7 @@ elif [ -d "${bindir}" ]; then
   systemctl stop airupnp
 
   pushd "${bindir}"
-  curl --compressed --silent https://api.github.com/repos/philippe44/AirConnect/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs curl --compressed --progress-bar -Lo airconnect.zip
+  curl --compressed --silent https://api.github.com/repos/philippe44/AirConnect/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs curl --remove-on-error --compressed --progress-bar -Lo airconnect.zip
   unzip -p airconnect.zip airupnp-linux-$(uname -m) >airupnp-linux
   rm airconnect.zip
   chmod 755 airupnp-linux
@@ -50,7 +50,7 @@ else
     apt-get install -y libssl1.1
   fi
 
-  curl --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir "${bindir}" --create-dirs
+  curl --remove-on-error --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir "${bindir}" --create-dirs
   pushd "${bindir}"
   chmod 755 airupnp-linux
   popd
