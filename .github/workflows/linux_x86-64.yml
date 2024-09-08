@@ -24,7 +24,7 @@ jobs:
         if: ${{ steps.cache-brew.outputs.cache-hit != 'true' || 'true' }}
         run: |
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 2> /dev/null
-          export HOMEBREW_NO_ENV_HINTS
+          export HOMEBREW_NO_ENV_HINTS=1
           brew reinstall curl 2> /dev/null
           sudo apt-get purge curl -y 2> /dev/null
           sudo ln -s /home/linuxbrew/.linuxbrew/bin/curl /usr/bin/curl
