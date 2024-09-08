@@ -23,9 +23,9 @@ jobs:
       - name: Install dependencies
         if: ${{ steps.cache-brew.outputs.cache-hit != 'true' || 'true' }}
         run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 1> /dev/null
-          brew reinstall curl 1> /dev/null
-          sudo apt-get purge curl -y 1> /dev/null
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 2> /dev/null
+          brew reinstall curl 2> /dev/null
+          sudo apt-get purge curl -y 2> /dev/null
           sudo ln -s /home/linuxbrew/.linuxbrew/bin/curl /usr/bin/curl
       - name: Testing Shell script
         run: |
