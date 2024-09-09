@@ -8,7 +8,7 @@ fi
 
 # Aktualisiere das System
 echo "Aktualisiere das System..."
-apt update &&  apt dist-upgrade -y
+apt update && apt dist-upgrade -y
 
 # Installiere Pi-hole
 echo "Installiere Pi-hole..."
