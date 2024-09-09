@@ -44,4 +44,5 @@ jobs:
 
       - name: Run sript 'pihole-cloudflared.sh'
         run: |
+          sudo -i
           bash pihole-cloudflared.sh
