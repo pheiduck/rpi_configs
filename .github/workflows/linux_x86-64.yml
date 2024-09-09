@@ -23,11 +23,11 @@ jobs:
       - name: Install dependencies
         if: ${{ matrix.os == 'ubuntu-20.04' || matrix.os == 'ubuntu-22.04' }}
         run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 2> /dev/null
-          export HOMEBREW_NO_ENV_HINTS=1
-          brew reinstall curl 2> /dev/null
-          sudo apt-get purge curl -y 2> /dev/null
-          sudo ln -s /home/linuxbrew/.linuxbrew/bin/curl /usr/bin/curl
+          curl -LO https://curl.se/download/curl-7.88.1.tar.xz
+          tar xfv curl-7.88.1.tar.xz
+          cd curl-7.88.1
+          ./configure
+          sudo make install
       - name: Testing Shell script
         run: |
           cd airconnect
