@@ -19,7 +19,7 @@ jobs:
           sudo apt-get purge -y curl
           wget https://curl.se/download/curl-7.83.0.tar.xz
           tar xfv curl-7.83.0.tar.xz
-          cd curl-7.88.1
+          cd curl-7.83.0
           ./configure --with-openssl
           sudo make install
           sudo ldconfig
