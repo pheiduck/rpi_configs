@@ -21,7 +21,7 @@ jobs:
           path: /home/linuxbrew/.linuxbrew
           key: ${{ runner.os }}-brew
       - name: Install dependencies
-        if: ${{ matrix.os == 'ubuntu-20.04' }} && ${{ steps.cache-brew.outputs.cache-hit != 'true' || 'true' }}
+        if: ${{ matrix.os == 'ubuntu-20.04' && steps.cache-brew.outputs.cache-hit != 'true' || 'true' }}
         run: |
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 2> /dev/null
           export HOMEBREW_NO_ENV_HINTS=1
