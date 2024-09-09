@@ -21,7 +21,7 @@ jobs:
           path: /home/linuxbrew/.linuxbrew
           key: ${{ runner.os }}-brew
       - name: Install dependencies
-        if: ${{ matrix.os == 'ubuntu-20.04' }}
+        if: ${{ matrix.os == 'ubuntu-20.04' || 'ubuntu-22.04'  }}
         run: |
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 2> /dev/null
           export HOMEBREW_NO_ENV_HINTS=1
