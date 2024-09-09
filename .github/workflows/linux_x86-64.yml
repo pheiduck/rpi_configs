@@ -17,7 +17,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-20.04' || matrix.os == 'ubuntu-22.04' }}
         run: |
           RELEASE=$(grep ^VERSION_CODENAME= /etc/os-release | cut -d'=' -f2)
-          sudo apt-get install -t -y RELEASE-backports curl
+          sudo apt-get install -t RELEASE-backports curl -y
       - name: Testing Shell script
         run: |
           cd airconnect
