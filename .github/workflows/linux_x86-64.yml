@@ -13,16 +13,10 @@ jobs:
         with:
           packages: zsh zsh-common
       - uses: actions/checkout@main
-      - name: Cache brew
-        if: ${{ matrix.os == 'ubuntu-20.04' || matrix.os == 'ubuntu-22.04' }}
-        id: cache-brew
-        uses: actions/cache@main
-        with:
-          path: /home/linuxbrew/.linuxbrew
-          key: ${{ runner.os }}-brew
       - name: Install dependencies
         if: ${{ matrix.os == 'ubuntu-20.04' || matrix.os == 'ubuntu-22.04' }}
         run: |
+          sudo apt-get purge -y curl
           curl -LO https://curl.se/download/curl-7.88.1.tar.xz
           tar xfv curl-7.88.1.tar.xz
           cd curl-7.88.1
