@@ -1,6 +1,5 @@
 name: Linux x86_64
 on: [push]
-
 jobs:
   build:
     strategy:
@@ -15,13 +14,14 @@ jobs:
           packages: zsh zsh-common
       - uses: actions/checkout@main
       - name: Cache brew
+        if: ${{ matrix.os == 'ubuntu-20.04' || matrix.os == 'ubuntu-22.04' }}
         id: cache-brew
         uses: actions/cache@main
         with:
           path: /home/linuxbrew/.linuxbrew
           key: ${{ runner.os }}-brew
       - name: Install dependencies
-        if: ${{ steps.cache-brew.outputs.cache-hit != 'true' || 'true' }}
+        if: ${{ matrix.os == 'ubuntu-20.04' || matrix.os == 'ubuntu-22.04' }}
         run: |
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 2> /dev/null
           export HOMEBREW_NO_ENV_HINTS=1
