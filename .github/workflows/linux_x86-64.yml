@@ -14,7 +14,7 @@ jobs:
           packages: zsh zsh-common
       - uses: actions/checkout@main
       - name: Cache brew
-        if: ${{ matrix.os == 'ubuntu-20.04' }}
+        if: ${{ matrix.os == 'ubuntu-20.04' || matrix.os == 'ubuntu-22.04' }}
         id: cache-brew
         uses: actions/cache@main
         with:
