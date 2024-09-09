@@ -13,6 +13,21 @@ jobs:
         with:
           packages: zsh zsh-common
       - uses: actions/checkout@main
+      - name: Cache brew
+        if: ${{ matrix.os == 'ubuntu-20.04' }}
+        id: cache-brew
+        uses: actions/cache@main
+        with:
+          path: /home/linuxbrew/.linuxbrew
+          key: ${{ runner.os }}-brew
+      - name: Install dependencies
+        if: ${{ matrix.os == 'ubuntu-20.04' }} && ${{ steps.cache-brew.outputs.cache-hit != 'true' || 'true' }}
+        run: |
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 2> /dev/null
+          export HOMEBREW_NO_ENV_HINTS=1
+          brew reinstall curl 2> /dev/null
+          sudo apt-get purge curl -y 2> /dev/null
+          sudo ln -s /home/linuxbrew/.linuxbrew/bin/curl /usr/bin/curl
       - name: Testing Shell script
         run: |
           cd airconnect
