@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 # Aktualisiere das System
 echo "Aktualisiere das System..."
