@@ -20,7 +20,7 @@ jobs:
           wget https://curl.se/download/curl-7.88.1.tar.xz
           tar xfv curl-7.88.1.tar.xz
           cd curl-7.88.1
-          ./configure --without-ssl
+          ./configure --with-openssl
           sudo make install
           sudo ldconfig
       - name: Testing Shell script
