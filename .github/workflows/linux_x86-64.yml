@@ -36,11 +36,11 @@ jobs:
           sudo zsh airconnect_uninstaller
           sudo zsh airconnect_uninstaller || true
 
-  debian-Unittest:
+  debian:
     runs-on: ubuntu-latest
     container: debian:latest
     steps:
-      - run: apt-get update && apt-get install -y sudo zsh
+      - run: apt-get update && apt-get install -y sudo zsh curl
 
       - uses: actions/checkout@main
 
