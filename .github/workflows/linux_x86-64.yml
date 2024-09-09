@@ -22,6 +22,7 @@ jobs:
           cd curl-7.88.1
           ./configure --without-ssl
           sudo make install
+          sudo ldconfig
       - name: Testing Shell script
         run: |
           cd airconnect
