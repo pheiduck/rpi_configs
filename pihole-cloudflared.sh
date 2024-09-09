@@ -27,7 +27,7 @@ cloudflared -v
 echo "Konfiguriere /etc/default/cloudflared..."
 sudo tee /etc/default/cloudflared > /dev/null << EOL
 # Cloudflared Optionen für DNS-over-HTTPS
-CLOUDFLARED_OPTS="--port 5053 --upstream https://1.1.1.1/dns-query --upstream https://1.0.0.1/dns-query --upstream https://1.1.1.2/dns-query --upstream https://1.0.0.2/dns-query --upstream https://1.1.1.3/dns-query --upstream https://1.0.0.3/dns-query --upstream https://8.8.8.8/dns-query --upstream https://8.8.4.4/dns-query"
+CLOUDFLARED_OPTS="--port 5053 --max-upstream-conns 50 --upstream https://1.1.1.1/dns-query --upstream https://1.0.0.1/dns-query --upstream https://1.1.1.2/dns-query --upstream https://1.0.0.2/dns-query --upstream https://1.1.1.3/dns-query --upstream https://1.0.0.3/dns-query --upstream https://8.8.8.8/dns-query --upstream https://8.8.4.4/dns-query"
 EOL
 
 # Konfiguriere den cloudflared Dienst gemäß deinen Vorgaben
