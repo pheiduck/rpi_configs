@@ -26,7 +26,7 @@ jobs:
           curl -LO https://curl.se/download/curl-7.88.1.tar.xz
           tar xfv curl-7.88.1.tar.xz
           cd curl-7.88.1
-          ./configure
+          ./configure --without-ssl
           sudo make install
       - name: Testing Shell script
         run: |
