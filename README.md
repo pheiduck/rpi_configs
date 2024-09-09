@@ -44,4 +44,3 @@ journalctl -u airupnp.service -f
 ```
 ## ToDo's
 
-- Make a Script for initial setup, with User interactions
