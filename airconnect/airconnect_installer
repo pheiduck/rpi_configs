@@ -19,7 +19,15 @@ elif [ $(uname -s) != "Linux" ]; then
   echo "${RED}ERROR: ${NC}You are trying to install this on an unsupported System.\nThis Installer is only supported by Linux Distributions (w/ systemd)."
   exit 1
 
-elif [ -d "${bindir}" ]; then
+# Check for curl version compatibility with --remove-on-error
+elif curl --version | head -n 1 | awk '{print $2}' | awk -F. '{if ($1 > 7 || ($1 == 7 && $2 >= 83)) exit 0; else exit 1}'; then
+  CURL_FLAGS="--remove-on-error --compressed --progress-bar"
+else
+  CURL_FLAGS="--compressed --progress-bar"
+fi
+
+# AirConnect Update or Install
+if [ -d "${bindir}" ]; then
   GREEN='\033[1;32m'
   NC='\033[0m'
   echo "${GREEN}Update AirConnect...${NC}"
@@ -27,30 +35,27 @@ elif [ -d "${bindir}" ]; then
   systemctl stop airupnp
 
   pushd "${bindir}"
-  curl --compressed --silent https://api.github.com/repos/philippe44/AirConnect/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs curl --remove-on-error --compressed --progress-bar -Lo airconnect.zip
-  unzip -p airconnect.zip airupnp-linux-$(uname -m) >airupnp-linux
+  curl ${CURL_FLAGS} https://api.github.com/repos/philippe44/AirConnect/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs curl ${CURL_FLAGS} -Lo airconnect.zip
+  unzip -p airconnect.zip airupnp-linux-$(uname -m) > airupnp-linux
   rm airconnect.zip
   chmod 755 airupnp-linux
   popd
 
   systemctl daemon-reload
-  
   systemctl start airupnp
-
   systemctl status airupnp
-  
-else
 
+else
   GREEN='\033[0;32m'
   NC='\033[0m'
   echo "${GREEN}Install AirConnect...${NC}"
 
   # Check if libssl1.1 is installed
-  if [ $(dpkg-query -W -f='${Status}' libssl1.1 2>/dev/null | grep -q "unknown ok not-installed") ]; then
+  if dpkg-query -W -f='${Status}' libssl1.1 2>/dev/null | grep -q "unknown ok not-installed"; then
     apt-get install -y libssl1.1
   fi
 
-  curl --remove-on-error --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir "${bindir}" --create-dirs
+  curl ${CURL_FLAGS} https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir "${bindir}" --create-dirs
   pushd "${bindir}"
   chmod 755 airupnp-linux
   popd
@@ -60,9 +65,7 @@ else
   popd
 
   systemctl daemon-reload
-
   systemctl enable --now airupnp
-
   systemctl status airupnp
 
 fi
