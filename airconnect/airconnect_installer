@@ -72,11 +72,15 @@ else
   if [ "$USE_OUTPUT_DIR" = true ]; then
     # Use --output-dir if supported by curl version
     curl ${CURL_FLAGS} --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir "${bindir}" --create-dirs
+    pushd "${bindir}"
+    chmod 755 airupnp-linux
+    popd
   else
     # For older curl versions, manually change directory to bindir
     mkdir -p "${bindir}"
     pushd "${bindir}"
     curl ${CURL_FLAGS} --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux
+    chmod 755 airupnp-linux
     popd
   fi
 
