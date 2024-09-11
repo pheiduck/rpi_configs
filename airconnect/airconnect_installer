@@ -26,6 +26,13 @@ else
   CURL_FLAGS=""
 fi
 
+# Check for curl version compatibility with --output-dir (7.73.0+)
+if curl --version | head -n 1 | awk '{print $2}' | awk -F. '{if ($1 > 7 || ($1 == 7 && $2 >= 73)) exit 0; else exit 1}'; then
+  USE_OUTPUT_DIR=true
+else
+  USE_OUTPUT_DIR=false
+fi
+
 # AirConnect Update or Install
 if [ -d "${bindir}" ]; then
   GREEN='\033[1;32m'
@@ -55,10 +62,16 @@ else
     apt-get install -y libssl1.1
   fi
 
-  curl ${CURL_FLAGS} --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir "${bindir}" --create-dirs
-  pushd "${bindir}"
-  chmod 755 airupnp-linux
-  popd
+  if [ "$USE_OUTPUT_DIR" = true ]; then
+    # Use --output-dir if supported by curl version
+    curl ${CURL_FLAGS} --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir "${bindir}" --create-dirs
+  else
+    # For older curl versions, manually change directory to bindir
+    mkdir -p "${bindir}"
+    pushd "${bindir}"
+    curl ${CURL_FLAGS} --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux
+    popd
+  fi
 
   pushd "${sysdir}"
   curl --compressed --progress-bar -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airupnp.service
