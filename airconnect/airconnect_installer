@@ -19,7 +19,7 @@ elif [ $(uname -s) != "Linux" ]; then
   echo "${RED}ERROR: ${NC}You are trying to install this on an unsupported System.\nThis Installer is only supported by Linux Distributions (w/ systemd)."
   exit 1
 
-# Check for curl version compatibility with --remove-on-error
+# Check for curl version compatibility with --remove-on-error (7.83.0+)
 elif curl --version | head -n 1 | awk '{print $2}' | awk -F. '{if ($1 > 7 || ($1 == 7 && $2 >= 83)) exit 0; else exit 1}'; then
   CURL_FLAGS="--remove-on-error"
 else
