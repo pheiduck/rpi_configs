@@ -21,9 +21,9 @@ elif [ $(uname -s) != "Linux" ]; then
 
 # Check for curl version compatibility with --remove-on-error
 elif curl --version | head -n 1 | awk '{print $2}' | awk -F. '{if ($1 > 7 || ($1 == 7 && $2 >= 83)) exit 0; else exit 1}'; then
-  CURL_FLAGS="--remove-on-error --compressed --progress-bar"
+  CURL_FLAGS="--remove-on-error"
 else
-  CURL_FLAGS="--compressed --progress-bar"
+  CURL_FLAGS=""
 fi
 
 # AirConnect Update or Install
@@ -35,7 +35,7 @@ if [ -d "${bindir}" ]; then
   systemctl stop airupnp
 
   pushd "${bindir}"
-  curl ${CURL_FLAGS} https://api.github.com/repos/philippe44/AirConnect/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs curl ${CURL_FLAGS} -Lo airconnect.zip
+  curl ${CURL_FLAGS} --compressed --progress-bar https://api.github.com/repos/philippe44/AirConnect/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs curl ${CURL_FLAGS} --compressed --progress-bar -Lo airconnect.zip
   unzip -p airconnect.zip airupnp-linux-$(uname -m) > airupnp-linux
   rm airconnect.zip
   chmod 755 airupnp-linux
@@ -55,13 +55,13 @@ else
     apt-get install -y libssl1.1
   fi
 
-  curl ${CURL_FLAGS} https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir "${bindir}" --create-dirs
+  curl ${CURL_FLAGS} --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir "${bindir}" --create-dirs
   pushd "${bindir}"
   chmod 755 airupnp-linux
   popd
 
   pushd "${sysdir}"
-  curl -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airupnp.service
+  curl --compressed --progress-bar -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airupnp.service
   popd
 
   systemctl daemon-reload
