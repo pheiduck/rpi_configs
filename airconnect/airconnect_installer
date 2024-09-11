@@ -74,7 +74,7 @@ else
   fi
 
   pushd "${sysdir}"
-  curl --compressed --progress-bar -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airupnp.service
+  curl --compressed -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airupnp.service
   popd
 
   systemctl daemon-reload
