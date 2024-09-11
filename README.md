@@ -18,7 +18,6 @@ Basic config changes on initial setup of my Raspberry Pi's
 - airconnect_uninstaller (Uninstall <a href="https://github.com/philippe44/AirConnect">AirConnect</a>)
 - YT: <a href="https://www.youtube.com/embed/LFh8p6sSCow?start=9&end=167">Video</a>
 ## Downloads
-### Note: Last Version require upstream curl
 #### Installer supports Linux w/ systemd only.
 
 Are you using bash?: https://github.com/pheiduck/rpi_configs/issues/10#issuecomment-1519088347
@@ -28,7 +27,7 @@ Are you using bash?: https://github.com/pheiduck/rpi_configs/issues/10#issuecomm
 ```
 curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airconnect_installer | zsh
 ```
-#### Hint: For Update run the Install Script again.
+#### For Update run the Install Script again.
 
 # airconnect_uninstaller:
 ```
