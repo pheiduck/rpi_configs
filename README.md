@@ -24,7 +24,6 @@ Basic config changes on initial setup of my Raspberry Pi's
 Are you using bash?: https://github.com/pheiduck/rpi_configs/issues/10#issuecomment-1519088347
 
 # airconnect_installer:
-#### requires curl 7.83.0 or newer.
 
 ```
 curl -sSL https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airconnect_installer | zsh
