@@ -29,7 +29,7 @@ then
     echo "Installierte Version: $installed_version"
 else
     echo "Fastfetch ist nicht installiert."
-    installed_version="0.0.0"
+    installed_version="none"
 fi
 
 # Vergleiche die installierte Version mit der neuesten Version
