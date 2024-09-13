@@ -21,7 +21,7 @@ jobs:
           sudo zsh airconnect_uninstaller
           sudo zsh airconnect_uninstaller || true
 
-  pihole-ci:
+  other-scripts:
     runs-on: ubuntu-latest
     steps:
 
@@ -30,3 +30,8 @@ jobs:
       - name: Run sript 'pihole-cloudflared.sh'
         run: |
           sudo bash pihole-cloudflared.sh
+
+          
+      - name: Run sript 'update_fastfetch'
+        run: |
+          sudo bash update_fastfetch
