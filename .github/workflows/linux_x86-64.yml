@@ -27,9 +27,9 @@ jobs:
 
       - uses: actions/checkout@main
 
-      - name: Run sript 'pihole-cloudflared.sh'
+      - name: Run sript 'pihole-cloudflared'
         run: |
-          sudo bash pihole-cloudflared.sh
+          sudo bash pihole-cloudflared
 
           
       - name: Run sript 'update_fastfetch'
