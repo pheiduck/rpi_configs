@@ -4,7 +4,7 @@
 API_URL="https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest"
 
 # Architektureinstellung
-ARCH="aarch64"
+ARCH=$(uname -m)
 
 # Neueste Version von der GitHub-API abrufen
 echo "Prüfe auf die neueste Version von Fastfetch..."
