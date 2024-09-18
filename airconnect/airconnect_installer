@@ -9,25 +9,22 @@ NC='\033[0m'
 # Variables
 bindir='/var/lib/airconnect/'
 sysdir='/etc/systemd/system/'
+service_name='airupnp.service'
 
-# Check Privileges
-if [ "$(id -u)" -ne 0 ]; then
-  printf "${YELLOW}WARNING: ${NC}Please run with sudo privileges.\n"
+# Check if running as root
+if [ "$(whoami)" != 'root' ]; then
+  printf "${YELLOW}WARNING: ${NC}This script requires root privileges. Please run with sudo.\n"
   exit 1
+fi
 
-# Check OS
-elif [ "$(uname -s)" != "Linux" ]; then
-  printf "${RED}ERROR: ${NC}You are trying to install this on an unsupported system.\n"
-  printf "This installer is only supported by Linux distributions (w/ systemd).\n"
+# Check if running on Linux
+if [ "$(uname -s)" != "Linux" ]; then
+  printf "${RED}ERROR: ${NC}This installer is only supported on Linux distributions.\n"
   exit 1
-
-# Check if systemd is available
-elif ! pidof systemd > /dev/null; then
-  printf "${RED}ERROR: ${NC}systemd not found. This script requires systemd.\n"
-  exit 1
+fi
 
 # Check for curl version compatibility with --remove-on-error (7.83.0+)
-elif curl --version | head -n 1 | awk '{print $2}' | awk -F. '{if ($1 > 7 || ($1 == 7 && $2 >= 83)) exit 0; else exit 1}'; then
+if curl --version | head -n 1 | awk '{print $2}' | awk -F. '{if ($1 > 7 || ($1 == 7 && $2 >= 83)) exit 0; else exit 1}'; then
   CURL_FLAGS="--remove-on-error"
 else
   CURL_FLAGS=""
@@ -40,51 +37,139 @@ else
   USE_OUTPUT_DIR=false
 fi
 
-# AirConnect Update or Install
+# Check if AirConnect is already installed
 if [ -d "${bindir}" ]; then
   printf "${GREEN}Updating AirConnect...${NC}\n"
 
-  systemctl stop airupnp
+  systemctl stop airupnp || {
+    printf "${RED}ERROR: ${NC}Failed to stop AirConnect service. Exiting.\n"
+    exit 1
+  }
 
-  pushd "${bindir}"
-  curl ${CURL_FLAGS} --compressed --progress-bar https://api.github.com/repos/philippe44/AirConnect/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs curl ${CURL_FLAGS} --compressed --progress-bar -Lo airconnect.zip
-  unzip -p airconnect.zip airupnp-linux-$(uname -m) > airupnp-linux
-  rm airconnect.zip
-  chmod 755 airupnp-linux
-  popd
+  pushd "${bindir}" || {
+    printf "${RED}ERROR: ${NC}Failed to change directory to ${bindir}. Exiting.\n"
+    exit 1
+  }
 
-  systemctl daemon-reload
-  systemctl start airupnp
-  systemctl status airupnp
+  # Download and update the AirConnect binaries
+  printf "${YELLOW}Downloading latest AirConnect binaries...${NC}\n"
+  if ! curl ${CURL_FLAGS} --compressed --progress-bar https://api.github.com/repos/philippe44/AirConnect/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs curl ${CURL_FLAGS} --compressed --progress-bar -Lo airconnect.zip; then
+    printf "${RED}ERROR: ${NC}Failed to download AirConnect binaries. Exiting.\n"
+    exit 1
+  fi
+
+  # Extract and set permissions
+  unzip -p airconnect.zip airupnp-linux-$(uname -m) > airupnp-linux || {
+    printf "${RED}ERROR: ${NC}Failed to extract AirConnect binaries. Exiting.\n"
+    exit 1
+  }
+
+  rm airconnect.zip || {
+    printf "${RED}ERROR: ${NC}Failed to remove airconnect.zip. Exiting.\n"
+    exit 1
+  }
+
+  chmod 755 airupnp-linux || {
+    printf "${RED}ERROR: ${NC}Failed to set permissions on airupnp-linux. Exiting.\n"
+    exit 1
+  }
+
+  popd || {
+    printf "${RED}ERROR: ${NC}Failed to return to the previous directory. Exiting.\n"
+    exit 1
+  }
+
+  systemctl daemon-reload || {
+    printf "${RED}ERROR: ${NC}Failed to reload systemd daemon. Exiting.\n"
+    exit 1
+  }
+
+  systemctl start airupnp || {
+    printf "${RED}ERROR: ${NC}Failed to start AirConnect service. Exiting.\n"
+    exit 1
+  }
+
+  printf "${GREEN}AirConnect has been successfully updated.${NC}\n"
 
 else
   printf "${GREEN}Installing AirConnect...${NC}\n"
 
-  # Check if libssl1.1 is installed
-  if [ $(dpkg-query -W -f='${Status}' libssl1.1 2>/dev/null | grep -q "unknown ok not-installed") ]; then
-    apt-get install -y libssl1.1
-  fi
-
-  if [ "$USE_OUTPUT_DIR" = true ]; then
-    # Use --output-dir if supported by curl version
-    curl ${CURL_FLAGS} --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) --output-dir "${bindir}" --create-dirs -o airupnp-linux
-    pushd "${bindir}"
-    chmod 755 airupnp-linux
-    popd
+  # For Ubuntu 24.04+, skip libssl1.1 as it's not required
+  if ! grep -q "24.04" /etc/os-release; then
+    if dpkg-query -W -f='${Status}' libssl1.1 2>/dev/null | grep -q "unknown ok not-installed"; then
+      printf "${YELLOW}Installing libssl1.1 dependency...${NC}\n"
+      if ! apt-get install -y libssl1.1; then
+        printf "${RED}ERROR: ${NC}Failed to install libssl1.1. Exiting.\n"
+        exit 1
+      fi
+    fi
   else
-    # For older curl versions, manually change directory to bindir
-    mkdir -p "${bindir}"
-    pushd "${bindir}"
-    curl ${CURL_FLAGS} --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux
-    chmod 755 airupnp-linux
-    popd
+    printf "${YELLOW}Skipping libssl1.1 installation for Ubuntu 24.04+...${NC}\n"
   fi
 
-  pushd "${sysdir}"
-  curl ${CURL_FLAGS} --compressed -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airupnp.service
-  popd
+  # Create necessary directories and download binaries
+  if [ "$USE_OUTPUT_DIR" = true ]; then
+    printf "${YELLOW}Downloading and installing AirConnect binaries...${NC}\n"
+    curl ${CURL_FLAGS} --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) --output-dir "${bindir}" --create-dirs -o airupnp-linux || {
+      printf "${RED}ERROR: ${NC}Failed to download AirConnect binaries. Exiting.\n"
+      exit 1
+    }
+  else
+    printf "${YELLOW}Downloading and installing AirConnect binaries...${NC}\n"
+    mkdir -p "${bindir}" || {
+      printf "${RED}ERROR: ${NC}Failed to create directory ${bindir}. Exiting.\n"
+      exit 1
+    }
 
-  systemctl daemon-reload
-  systemctl enable --now airupnp
-  systemctl status airupnp
+    pushd "${bindir}" || {
+      printf "${RED}ERROR: ${NC}Failed to change directory to ${bindir}. Exiting.\n"
+      exit 1
+    }
+
+    curl ${CURL_FLAGS} --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux || {
+      printf "${RED}ERROR: ${NC}Failed to download AirConnect binaries. Exiting.\n"
+      exit 1
+    }
+
+    chmod 755 airupnp-linux || {
+      printf "${RED}ERROR: ${NC}Failed to set permissions on airupnp-linux. Exiting.\n"
+      exit 1
+    }
+
+    popd || {
+      printf "${RED}ERROR: ${NC}Failed to return to the previous directory. Exiting.\n"
+      exit 1
+    }
+  fi
+
+  # Download the systemd service file and set it up
+  pushd "${sysdir}" || {
+    printf "${RED}ERROR: ${NC}Failed to change directory to ${sysdir}. Exiting.\n"
+    exit 1
+  }
+
+  printf "${YELLOW}Downloading AirConnect systemd service file...${NC}\n"
+  curl ${CURL_FLAGS} --compressed -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airupnp.service || {
+    printf "${RED}ERROR: ${NC}Failed to download systemd service file. Exiting.\n"
+    exit 1
+  }
+
+  popd || {
+    printf "${RED}ERROR: ${NC}Failed to return to the previous directory. Exiting.\n"
+    exit 1
+  }
+
+  # Reload systemd and enable the service
+  printf "${YELLOW}Enabling and starting AirConnect service...${NC}\n"
+  systemctl daemon-reload || {
+    printf "${RED}ERROR: ${NC}Failed to reload systemd daemon. Exiting.\n"
+    exit 1
+  }
+
+  systemctl enable --now airupnp || {
+    printf "${RED}ERROR: ${NC}Failed to enable and start AirConnect service. Exiting.\n"
+    exit 1
+  }
+
+  printf "${GREEN}AirConnect has been successfully installed.${NC}\n"
 fi
