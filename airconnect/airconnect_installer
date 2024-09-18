@@ -11,7 +11,7 @@ bindir='/var/lib/airconnect/'
 sysdir='/etc/systemd/system/'
 
 # Check Privileges
-if [ "$(whoami)" != 'root' ]; then
+if [ "$(id -u)" -ne 0 ]; then
   printf "${YELLOW}WARNING: ${NC}Please run with sudo privileges.\n"
   exit 1
 
