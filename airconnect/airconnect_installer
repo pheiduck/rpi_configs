@@ -137,4 +137,39 @@ else
     }
 
     popd || {
-      printf "${RED}ERROR: ${NC}Failed to return to the previous directory. Ex
+      printf "${RED}ERROR: ${NC}Failed to return to the previous directory. Exiting.\n"
+      exit 1
+    }
+  fi
+
+  # Download the systemd service file and set it up
+  pushd "${sysdir}" || {
+    printf "${RED}ERROR: ${NC}Failed to change directory to ${sysdir}. Exiting.\n"
+    exit 1
+  }
+
+  printf "${YELLOW}Downloading AirConnect systemd service file...${NC}\n"
+  curl ${CURL_FLAGS} --compressed -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airupnp.service || {
+    printf "${RED}ERROR: ${NC}Failed to download systemd service file. Exiting.\n"
+    exit 1
+  }
+
+  popd || {
+    printf "${RED}ERROR: ${NC}Failed to return to the previous directory. Exiting.\n"
+    exit 1
+  }
+
+  # Reload systemd and enable the service
+  printf "${YELLOW}Enabling and starting AirConnect service...${NC}\n"
+  systemctl daemon-reload || {
+    printf "${RED}ERROR: ${NC}Failed to reload systemd daemon. Exiting.\n"
+    exit 1
+  }
+
+  systemctl enable --now airupnp || {
+    printf "${RED}ERROR: ${NC}Failed to enable and start AirConnect service. Exiting.\n"
+    exit 1
+  }
+
+  printf "${GREEN}AirConnect has been successfully installed.${NC}\n"
+fi
