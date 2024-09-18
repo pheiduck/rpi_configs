@@ -53,7 +53,7 @@ if [ -d "${bindir}" ]; then
 
   # Download and update the AirConnect binaries
   printf "${YELLOW}Downloading latest AirConnect binaries...${NC}\n"
-  if ! curl ${CURL_FLAGS} --compressed --progress-bar https://api.github.com/repos/philippe44/AirConnect/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs curl ${CURL_FLAGS} --compressed --progress-bar -Lo airconnect.zip; then
+  if ! curl ${CURL_FLAGS} --compressed https://api.github.com/repos/philippe44/AirConnect/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs curl ${CURL_FLAGS} --compressed --progress-bar -Lo airconnect.zip; then
     printf "${RED}ERROR: ${NC}Failed to download AirConnect binaries. Exiting.\n"
     exit 1
   fi
