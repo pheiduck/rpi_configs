@@ -1,42 +1,80 @@
 #!/usr/bin/env sh
 
+# Color Variables
+RED='\033[0;31m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
 # Variables
 bindir='/var/lib/airconnect/'
 sysdir='/etc/systemd/system/'
+service_file="${sysdir}airupnp.service"
 
 # Check Privileges
-if [ $(whoami) != 'root' ]; then
-  YELLOW='\033[1;33m'
-  NC='\033[0m'
-  echo "${YELLOW}WARNING: ${NC}Please run with sudo privileges."
+if [ "$(id -u)" -ne 0 ]; then
+  printf "${YELLOW}WARNING: ${NC}Please run with sudo privileges.\n"
   exit 1
+fi
 
 # Check OS
-elif [ $(uname -s) != "Linux" ]; then
-  YELLOW='\033[1;33m'
-  RED='\033[0;31m'
-  NC='\033[0m'
-  echo "${RED}ERROR: ${NC}Don't use the uninstaller on unsupported Systems!\nThis Uninstaller is only supported by Linux Distributions."
+if [ "$(uname -s)" != "Linux" ]; then
+  printf "${RED}ERROR: ${NC}This uninstaller is only supported on Linux systems.\n"
   exit 1
-
-elif [ -d "${bindir}" ]; then
-  RED='\033[0;31m'
-  NC='\033[0m'
-  echo "${RED}Uninstall AirConnect...${NC}"
-
-  systemctl disable --now airupnp
-
-  rm -rv "${bindir}"
-
-  rm -v "${sysdir}"airupnp.service
-
-  systemctl daemon-reload
-
-else
-
-  RED='\033[0;31m'
-  NC='\033[0m'
-  echo "${RED}ERROR: ${NC}AirConnect has already been uninstalled.\nFor reinstall use the installer script."
-  exit 1
-
 fi
+
+# Check if AirConnect is installed
+if [ ! -d "${bindir}" ]; then
+  printf "${RED}ERROR: ${NC}AirConnect is not installed or has already been uninstalled.\n"
+  printf "For reinstall, use the installer script.\n"
+  exit 1
+fi
+
+# Uninstall AirConnect
+printf "${RED}Uninstalling AirConnect...${NC}\n"
+
+# Stop and disable the systemd service if it exists
+if [ -f "${service_file}" ]; then
+  printf "Stopping and disabling airupnp service...\n"
+  systemctl disable --now airupnp
+  if [ $? -eq 0 ]; then
+    printf "${GREEN}Service stopped and disabled successfully.${NC}\n"
+  else
+    printf "${RED}Failed to stop or disable the service. Please check the service manually.${NC}\n"
+  fi
+else
+  printf "${YELLOW}WARNING: ${NC}Service file not found. Skipping systemctl commands.\n"
+fi
+
+# Remove AirConnect directory
+printf "Removing AirConnect files from ${bindir}...\n"
+rm -rv "${bindir}"
+if [ $? -eq 0 ]; then
+  printf "${GREEN}AirConnect files removed successfully.${NC}\n"
+else
+  printf "${RED}Failed to remove ${bindir}. Please check the directory manually.${NC}\n"
+fi
+
+# Remove systemd service file if it exists
+if [ -f "${service_file}" ]; then
+  printf "Removing systemd service file...\n"
+  rm -v "${service_file}"
+  if [ $? -eq 0 ]; then
+    printf "${GREEN}Service file removed successfully.${NC}\n"
+  else
+    printf "${RED}Failed to remove service file. Please check the file manually.${NC}\n"
+  fi
+
+  # Reload systemd daemon to apply changes
+  printf "Reloading systemd daemon...\n"
+  systemctl daemon-reload
+  if [ $? -eq 0 ]; then
+    printf "${GREEN}Systemd daemon reloaded successfully.${NC}\n"
+  else
+    printf "${RED}Failed to reload systemd daemon. Please check the system manually.${NC}\n"
+  fi
+else
+  printf "${YELLOW}WARNING: ${NC}No systemd service file found. Skipping removal of service file.\n"
+fi
+
+printf "${GREEN}AirConnect has been successfully uninstalled.${NC}\n"

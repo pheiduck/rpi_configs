@@ -1,29 +1,29 @@
 #!/usr/bin/env sh
 
+# Define Color
+RED='\033[0;31m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
 # Variables
 bindir='/var/lib/airconnect/'
 sysdir='/etc/systemd/system/'
 
 # Check Privileges
-if [ $(whoami) != 'root' ]; then
-  YELLOW='\033[1;33m'
-  NC='\033[0m'
-  echo "${YELLOW}WARNING: ${NC}Please run with sudo privileges."
+if [ "$(id -u)" -ne 0 ]; then
+  printf "${YELLOW}WARNING: ${NC}Please run with sudo privileges.\n"
   exit 1
 
 # Check OS
-elif [ $(uname -s) != "Linux" ]; then
-  YELLOW='\033[1;33m'
-  RED='\033[0;31m'
-  NC='\033[0m'
-  echo "${RED}ERROR: ${NC}You are trying to install this on an unsupported System.\nThis Installer is only supported by Linux Distributions (w/ systemd)."
+elif [ "$(uname -s)" != "Linux" ]; then
+  printf "${RED}ERROR: ${NC}You are trying to install this on an unsupported system.\n"
+  printf "This installer is only supported by Linux distributions (w/ systemd).\n"
   exit 1
 
 # Check if systemd is available
 elif ! pidof systemd > /dev/null; then
-  RED='\033[0;31m'
-  NC='\033[0m'
-  echo "${RED}ERROR: ${NC}systemd not found. This script requires systemd."
+  printf "${RED}ERROR: ${NC}systemd not found. This script requires systemd.\n"
   exit 1
 
 # Check for curl version compatibility with --remove-on-error (7.83.0+)
@@ -42,9 +42,7 @@ fi
 
 # AirConnect Update or Install
 if [ -d "${bindir}" ]; then
-  GREEN='\033[1;32m'
-  NC='\033[0m'
-  echo "${GREEN}Update AirConnect...${NC}"
+  printf "${GREEN}Updating AirConnect...${NC}\n"
 
   systemctl stop airupnp
 
@@ -60,9 +58,7 @@ if [ -d "${bindir}" ]; then
   systemctl status airupnp
 
 else
-  GREEN='\033[0;32m'
-  NC='\033[0m'
-  echo "${GREEN}Install AirConnect...${NC}"
+  printf "${GREEN}Installing AirConnect...${NC}\n"
 
   # Check if libssl1.1 is installed
   if [ $(dpkg-query -W -f='${Status}' libssl1.1 2>/dev/null | grep -q "unknown ok not-installed") ]; then
@@ -71,7 +67,7 @@ else
 
   if [ "$USE_OUTPUT_DIR" = true ]; then
     # Use --output-dir if supported by curl version
-    curl ${CURL_FLAGS} --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) -o airupnp-linux --output-dir "${bindir}" --create-dirs
+    curl ${CURL_FLAGS} --compressed --progress-bar https://raw.githubusercontent.com/philippe44/AirConnect/c3dfcdb/bin/airupnp-linux-$(uname -m) --output-dir "${bindir}" --create-dirs -o airupnp-linux
     pushd "${bindir}"
     chmod 755 airupnp-linux
     popd
@@ -91,5 +87,4 @@ else
   systemctl daemon-reload
   systemctl enable --now airupnp
   systemctl status airupnp
-
 fi
