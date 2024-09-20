@@ -1,27 +1,31 @@
 #!/usr/bin/env sh
 
-# Check privileged mode
+# Farben für die Ausgabe
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+# Prüfe, ob das Skript als root ausgeführt wird
 if [ $(whoami) != 'root' ]; then
-  YELLOW='\033[1;33m'
-  NC='\033[0m'
   echo "${YELLOW}Please run with sudo privileges${NC}"
   exit 1
-else
+fi
 
-###############################################
-# Exports some ZStandard Compression options: #
-# Compression Level (default is 3 if not set) #
-# and how many logical cores used.            #
-###############################################
+# Backup-Konfiguration
 export ZSTD_CLEVEL=6
 export ZSTD_NBTHREADS=2
-
-# Defined on which date the Backup was taken
 backupDate=$(date '+%d%m%y')
 
-# Working Directory is set in the systemd service
+# Überprüfe den Festplattenspeicher
+disk_usage=$(df / | grep / | awk '{ print $5 }' | sed 's/%//g')
 
-# Shutdown Docker Instances
+if [ $disk_usage -ge 65 ]; then
+  echo "${YELLOW}Festplattennutzung bei ${disk_usage}%. Alte Backups werden gelöscht...${NC}"
+  # Lösche alte Backups (hier wird angenommen, dass die Backups im Format docker-backup-*.tar.zst vorliegen)
+  find /home/pheiduck/docker-backup-*.tar.zst -mtime +30 -type f -delete
+  echo "${YELLOW}Alte Backups gelöscht.${NC}"
+fi
+
+# Docker-Container stoppen
 for dir in docker/*
 do
     pushd ${dir}
@@ -31,15 +35,14 @@ done
 
 sleep 15
 
-# Backing up Docker Files and related data
+# Backup erstellen
 pushd /path/to/userhome
 tar --create --zstd --file docker-backup-$backupDate.tar.zst --checkpoint=.100 docker
-scp -O docker-backup-$backupDate.tar.zst Server:path/to/backupdir
 popd
 
 sleep 15
 
-# Startup Docker Instances
+# Docker-Container wieder starten
 for dir in docker/*
 do
     pushd ${dir}
@@ -47,4 +50,4 @@ do
     popd
 done
 
-fi
+echo "${YELLOW}Backup und Docker-Management abgeschlossen.${NC}"
