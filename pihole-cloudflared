@@ -6,6 +6,19 @@ if [ $(whoami) != 'root' ]; then
   exit 1
 fi
 
+# Konfiguriere SSH Dienst gemäß deinen Vorgaben
+echo "Konfiguriere ssh Dienst..."
+tee /etc/ssh/sshd_config.d/rpi.conf > /dev/null << EOL
+Port 1234
+PermitRootLogin no
+MaxAuthTries 3
+MaxSessions 5
+PubkeyAuthentication yes
+PasswordAuthentication no
+Match Address 192.168.178.*
+PubkeyAuthentication yes
+EOL
+
 # Aktualisiere das System
 echo "Aktualisiere das System..."
 apt update && apt dist-upgrade -y
