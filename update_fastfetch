@@ -7,15 +7,15 @@ API_URL="https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest"
 ARCH=$(uname -m)
 
 # Neueste Version von der GitHub-API abrufen
-echo "Prüfe auf die neueste Version von Fastfetch..."
+printf "Prüfe auf die neueste Version von Fastfetch...\n"
 latest_version=$(curl -s "$API_URL" | grep -oP '"tag_name": "\K[\d.]+')
 
 if [ -z "$latest_version" ]; then
-    echo "Fehler: Konnte die neueste Version nicht abrufen."
+    printf "Fehler: Konnte die neueste Version nicht abrufen.\n"
     exit 1
 fi
 
-echo "Neueste verfügbare Version: $latest_version"
+printf "Neueste verfügbare Version: %s\n" "$latest_version"
 
 # Prüfe, ob fastfetch installiert ist und die Version abrufen
 if command -v fastfetch &> /dev/null
@@ -24,29 +24,29 @@ then
     installed_version=$(fastfetch --version 2>&1)
 
     # Extrahiere die Versionsnummer aus der Ausgabe
-    installed_version=$(echo "$installed_version" | grep -oP '\d+\.\d+\.\d+')
+    installed_version=$(printf "%s\n" "$installed_version" | grep -oP '\d+\.\d+\.\d+')
 
-    echo "Installierte Version: $installed_version"
+    printf "Installierte Version: %s\n" "$installed_version"
 else
-    echo "Fastfetch ist nicht installiert."
+    printf "Fastfetch ist nicht installiert.\n"
     installed_version="none"
 fi
 
 # Vergleiche die installierte Version mit der neuesten Version
 if [ "$installed_version" != "$latest_version" ]; then
-    echo "Eine neuere Version von Fastfetch ist verfügbar. Starte den Download und die Installation..."
+    printf "Eine neuere Version von Fastfetch ist verfügbar. Starte den Download und die Installation...\n"
 
     # URL zur .deb Datei basierend auf der neuesten Version und Architektur
     DEB_URL="https://github.com/fastfetch-cli/fastfetch/releases/download/${latest_version}/fastfetch-linux-${ARCH}.deb"
 
-    echo "Downloading the .deb file from $DEB_URL ..."
+    printf "Downloading the .deb file from %s ...\n" "$DEB_URL"
     curl -L -o fastfetch_latest.deb "$DEB_URL"
 
     # Überprüfe, ob der Download erfolgreich war
     if [ -f "fastfetch_latest.deb" ]; then
-        echo "Download erfolgreich. Datei fastfetch_latest.deb existiert."
+        printf "Download erfolgreich. Datei fastfetch_latest.deb existiert.\n"
     else
-        echo "Fehler: Die Datei fastfetch_latest.deb wurde nicht gefunden!"
+        printf "Fehler: Die Datei fastfetch_latest.deb wurde nicht gefunden!\n"
         exit 1
     fi
 
@@ -56,13 +56,13 @@ if [ "$installed_version" != "$latest_version" ]; then
     # Fehlende Abhängigkeiten beheben (falls erforderlich)
     sudo apt-get install -f
 
-    echo "Fastfetch wurde erfolgreich aktualisiert."
+    printf "Fastfetch wurde erfolgreich aktualisiert.\n"
 
     # Entferne die heruntergeladene .deb Datei
-    echo "Entferne die heruntergeladene Datei fastfetch_latest.deb ..."
+    printf "Entferne die heruntergeladene Datei fastfetch_latest.deb ...\n"
     rm fastfetch_latest.deb
 
-    echo "Die Datei wurde entfernt."
+    printf "Die Datei wurde entfernt.\n"
 else
-    echo "Fastfetch ist bereits auf dem neuesten Stand."
+    printf "Fastfetch ist bereits auf dem neuesten Stand.\n"
 fi
