@@ -6,7 +6,7 @@ NC='\033[0m'
 
 # Prüfe, ob das Skript als root ausgeführt wird
 if [ $(whoami) != 'root' ]; then
-  echo "${YELLOW}Please run with sudo privileges${NC}"
+  printf "${YELLOW}Please run with sudo privileges${NC}\n"
   exit 1
 fi
 
@@ -19,10 +19,10 @@ backupDate=$(date '+%d%m%y')
 disk_usage=$(df / | grep / | awk '{ print $5 }' | sed 's/%//g')
 
 if [ $disk_usage -ge 65 ]; then
-  echo "${YELLOW}Festplattennutzung bei ${disk_usage}%. Alte Backups werden gelöscht...${NC}"
+  printf "${YELLOW}Festplattennutzung bei %s%%. Alte Backups werden gelöscht...${NC}\n" "$disk_usage"
   # Lösche alte Backups (hier wird angenommen, dass die Backups im Format docker-backup-*.tar.zst vorliegen)
   find /path/to/userhome/docker-backup-*.tar.zst -mtime +30 -type f -delete
-  echo "${YELLOW}Alte Backups gelöscht.${NC}"
+  printf "${YELLOW}Alte Backups gelöscht.${NC}\n"
 fi
 
 # Docker-Container stoppen
@@ -50,4 +50,4 @@ do
     popd
 done
 
-echo "${YELLOW}Backup und Docker-Management abgeschlossen.${NC}"
+printf "${YELLOW}Backup und Docker-Management abgeschlossen.${NC}\n"
