@@ -149,7 +149,7 @@ else
   }
 
   printf "${YELLOW}Downloading AirConnect systemd service file...${NC}\n"
-  curl ${CURL_FLAGS} --compressed -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airupnp.service || {
+  curl ${CURL_FLAGS} --compressed --progress-bar -LO https://raw.githubusercontent.com/pheiduck/rpi_configs/main/airconnect/airupnp.service || {
     printf "${RED}ERROR: ${NC}Failed to download systemd service file. Exiting.\n"
     exit 1
   }
