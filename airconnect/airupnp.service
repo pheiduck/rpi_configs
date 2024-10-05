@@ -1,12 +1,17 @@
 [Unit]
 Description=AirUPnP bridge
+Documentation=https://github.com/philippe44/AirConnect
 After=network-online.target
 Wants=network-online.target
 
 [Service]
+WorkingDirectory=/var/lib/airconnect
+Environment="LOG_LEVEL=INFO"
 ExecStart=/var/lib/airconnect/airupnp-linux -g 0 -l 50:500 -Z -x /var/lib/airconnect/airupnp.xml
 Restart=on-failure
 RestartSec=30
+ProtectProc=invisible
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
 NoNewPrivileges=yes
 PrivateIPC=yes
 PrivateTmp=yes
@@ -23,8 +28,8 @@ ProtectKernelLogs=yes
 RestrictNetworkInterfaces=eth0
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
 RestrictNamespaces=yes
-RestrictRealtime=yes
 RestrictSUIDSGID=yes
+RestrictRealtime=yes
 MemoryDenyWriteExecute=yes
 LockPersonality=yes
 
