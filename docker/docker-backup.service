@@ -3,7 +3,7 @@ Description=Docker Backup Service
 
 [Service]
 WorkingDirectory=/home/username
-ExecStart=zsh docker-backup
+ExecStart=zsh docker-backup 2>/dev/null
 NoNewPrivileges=yes
 PrivateTmp=yes
 PrivateDevices=yes
