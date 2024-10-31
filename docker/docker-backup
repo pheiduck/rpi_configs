@@ -46,7 +46,7 @@ sleep 15
 for dir in docker/*
 do
     pushd ${dir}
-    docker-compose up -d
+    docker-compose up -d 2>/dev/null
     popd
 done
 
