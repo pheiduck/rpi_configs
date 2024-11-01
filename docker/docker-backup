@@ -11,7 +11,7 @@ if [ $(whoami) != 'root' ]; then
 fi
 
 # Backup-Konfiguration
-export ZSTD_CLEVEL=6
+export ZSTD_CLEVEL=9
 export ZSTD_NBTHREADS=2
 backupDate=$(date '+%d%m%y')
 
