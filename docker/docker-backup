@@ -29,7 +29,7 @@ fi
 for dir in docker/*
 do
     pushd ${dir}
-    docker-compose stop
+    docker-compose down
     popd
 done
 
@@ -46,7 +46,7 @@ sleep 15
 for dir in docker/*
 do
     pushd ${dir}
-    docker-compose start
+    docker-compose up -d
     popd
 done
 
