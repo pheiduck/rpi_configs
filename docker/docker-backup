@@ -4,12 +4,6 @@
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-# Prüfe, ob das Skript als root ausgeführt wird
-if [ $(whoami) != 'root' ]; then
-  printf "${YELLOW}Please run with sudo privileges${NC}\n"
-  exit 1
-fi
-
 # Backup-Konfiguration
 export ZSTD_CLEVEL=9
 export ZSTD_NBTHREADS=2
@@ -37,7 +31,7 @@ sleep 15
 
 # Backup erstellen
 pushd /path/to/userhome
-tar --create --zstd --file docker-backup-$backupDate.tar.zst --checkpoint=.100 docker
+sudo tar --create --zstd --file docker-backup-$backupDate.tar.zst --checkpoint=.100 docker
 popd
 
 sleep 15
