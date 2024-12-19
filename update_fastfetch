@@ -53,7 +53,7 @@ if [ "$installed_version" != "$latest_version" ]; then
     # Installation der neuen Version mit dpkg
     sudo dpkg -i fastfetch_latest.deb
 
-    # Fehlende Abhängigkeiten beheben (falls erforderlich)
+    # Fehlende Abhängigkeiten installieren (falls erforderlich)
     sudo apt-get install -f
 
     printf "Fastfetch wurde erfolgreich aktualisiert.\n"
