@@ -15,7 +15,7 @@ disk_usage=$(df / | grep / | awk '{ print $5 }' | sed 's/%//g')
 if [ $disk_usage -ge 65 ]; then
   printf "${YELLOW}Festplattennutzung bei %s%%. Alte Backups werden gelöscht...${NC}\n" "$disk_usage"
   # Lösche alte Backups (hier wird angenommen, dass die Backups im Format docker-backup-*.tar.zst vorliegen)
-  find /path/to/userhome/docker-backup-*.tar.zst -mtime +30 -type f -delete
+  find /path/to/userhome -maxdepth 1 -name 'docker-backup-*.tar.zst' -mtime +30 -type f -delete
   printf "${YELLOW}Alte Backups gelöscht.${NC}\n"
 fi
 
