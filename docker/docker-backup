@@ -44,4 +44,4 @@ do
     popd
 done
 
-printf "${YELLOW}Backup und Docker-Management abgeschlossen.${NC}\n"
+printf "${YELLOW}Backup abgeschlossen.${NC}\n"
