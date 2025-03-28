@@ -9,16 +9,6 @@ export ZSTD_CLEVEL=18
 export ZSTD_NBTHREADS=2
 backupDate=$(date '+%d%m%y')
 
-# Überprüfe den Festplattenspeicher
-disk_usage=$(df / | grep / | awk '{ print $5 }' | sed 's/%//g')
-
-if [ $disk_usage -ge 65 ]; then
-  printf "${YELLOW}Festplattennutzung bei %s%%. Alte Backups werden gelöscht...${NC}\n" "$disk_usage"
-  # Lösche alte Backups (hier wird angenommen, dass die Backups im Format docker-backup-*.tar.zst vorliegen)
-  find /path/to/userhome -maxdepth 1 -name 'docker-backup-*.tar.zst' -mtime +30 -type f -delete
-  printf "${YELLOW}Alte Backups gelöscht.${NC}\n"
-fi
-
 # Docker-Container stoppen
 for dir in docker/*
 do
@@ -43,5 +33,17 @@ do
     docker-compose up -d
     popd
 done
+
+# Nur die drei neuesten Backups behalten
+backup_dir="/path/to/userhome"
+backup_pattern="docker-backup-*.tar.zst"
+backup_count=$(ls ${backup_dir}/${backup_pattern} 2>/dev/null | wc -l)
+if [ $backup_count -gt 3 ]; then
+    files_to_delete=$(ls -t ${backup_dir}/${backup_pattern} | tail -n +4)
+    for file in $files_to_delete; do
+        rm "$file"
+        printf "${YELLOW}Lösche altes Backup: %s${NC}\n" "$file"
+    done
+fi
 
 printf "${YELLOW}Backup abgeschlossen.${NC}\n"
