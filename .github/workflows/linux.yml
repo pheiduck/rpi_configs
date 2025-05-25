@@ -7,10 +7,22 @@ jobs:
         os: [ubuntu-22.04, ubuntu-24.04, ubuntu-24.04-arm]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: awalsh128/cache-apt-pkgs-action@latest
-        with:
-          packages: zsh zsh-common
       - uses: actions/checkout@main
+      - name: Cache apt packages
+        uses: actions/cache@main
+        with:
+          path: |
+            /var/cache/apt/archives
+            /var/lib/apt/lists
+          key: ${{ runner.os }}-apt-${{ matrix.os }}-${{ hashFiles('**/airconnect/airconnect_installer') }}
+          restore-keys: |
+            ${{ runner.os }}-apt-${{ matrix.os }}-
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zsh
+
       - name: Testing Shell script
         run: |
           cd airconnect
@@ -22,14 +34,21 @@ jobs:
   other-scripts:
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@main
+      - name: Cache downloaded scripts
+        uses: actions/cache@main
+        with:
+          path: |
+            ${{ github.workspace }}/pihole-cloudflared
+            ${{ github.workspace }}/update_fastfetch
+          key: ${{ runner.os }}-scripts-${{ hashFiles('**/*.sh') }}
+          restore-keys: |
+            ${{ runner.os }}-scripts-
 
-      - name: Run sript 'pihole-cloudflared'
+      - name: Run script 'pihole-cloudflared'
         run: |
           sudo bash pihole-cloudflared
 
-          
-      - name: Run sript 'update_fastfetch'
+      - name: Run script 'update_fastfetch'
         run: |
           sudo bash update_fastfetch
