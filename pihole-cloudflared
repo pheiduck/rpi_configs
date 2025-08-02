@@ -15,8 +15,6 @@ MaxAuthTries 3
 MaxSessions 5
 PubkeyAuthentication yes
 PasswordAuthentication no
-Match Address 192.168.178.*
-PubkeyAuthentication yes
 EOL
 
 # Aktualisiere das System
