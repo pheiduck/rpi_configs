@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
 
 # Farben für die Ausgabe
 YELLOW='\033[1;33m'
@@ -37,12 +37,12 @@ done
 
 # Nur die drei neuesten Backups behalten
 backup_dir="/home/$username"
-backup_pattern="docker-backup-*.tar.zst"
-backup_count=$(ls ${backup_dir}/${backup_pattern} 2>/dev/null | wc -l)
-if [ $backup_count -gt 3 ]; then
-    files_to_delete=$(ls -t ${backup_dir}/${backup_pattern} | tail -n +4)
-    for file in $files_to_delete; do
-        rm "$file"
+files=(${backup_dir}/docker-backup-*.tar.zst(Non))
+
+if (( ${#files[@]} > 3 )); then
+    old_files=("${files[@]:3}")
+    for file in "${old_files[@]}"; do
+        rm -- "$file"
         printf "${YELLOW}Lösche altes Backup: %s${NC}\n" "$file"
     done
 fi
