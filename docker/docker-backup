@@ -37,7 +37,7 @@ done
 
 # Nur die drei neuesten Backups behalten
 backup_dir="/home/$username"
-files=(${backup_dir}/docker-backup-*.tar.zst(Non))
+files=(${backup_dir}/docker-backup-*.tar.zst(Nonom))
 
 if (( ${#files[@]} > 3 )); then
     old_files=("${files[@]:3}")
